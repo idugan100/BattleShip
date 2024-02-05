@@ -64,7 +64,7 @@ class MyPanel extends JPanel{
 
 public class Image {
     public static void main(String[] args) throws IOException {
-    File file = new File("./");
+    File file = new File("./image.png");
     BufferedImage bufferedImage = ImageIO.read(file);
     ImageIcon imageIcon = new ImageIcon(bufferedImage);
     JFrame jFrame = new MyFrame(imageIcon);
