@@ -54,6 +54,16 @@ public class Ship {
 	}
 		return false;
 	}
+
+	void updateCoordinate(Coordinate c){
+		for(int i=0; i<size; i++) {
+			if(coordinateList[i].getRow()==c.getRow() && coordinateList[i].getColumn()==c.getColumn() ) {
+				coordinateList[i]=c;
+				return;
+			}
+		}
+		return;
+	}
 	 
 	 
 	 
