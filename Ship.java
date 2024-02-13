@@ -25,6 +25,10 @@ public class Ship {
 	}
 	
 	boolean placeShip(Coordinate[] list) {
+		if(size!=list.length){
+			throw new IllegalArgumentException("Incorrect Number of Coordinates");
+		}
+		
 	//todo add in collision handling when placing a ship
 		this.coordinateList=list;
 		return true;
