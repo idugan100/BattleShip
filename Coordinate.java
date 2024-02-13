@@ -42,6 +42,30 @@ public class Coordinate {
 	int getColumn() {
 		return column;
 	}
+
+	String getShipModifier(){
+		if(this.isHit()){
+			return "x";
+		}
+		else if (this.isMissed()){
+			return "o";
+		}
+		else{
+			return "";
+		}
+	}
+
+	String getBoardModifier(){
+		if(this.isHit()){
+			return "x";
+		}
+		else if (this.isMissed()){
+			return "o";
+		}
+		else{
+			return ".";
+		}
+	}
 	
 	
 }
