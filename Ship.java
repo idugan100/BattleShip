@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Ship {
 	private Coordinate coordinateList[];
@@ -64,5 +65,21 @@ public class Ship {
 		}
 		return;
 	}
-	  
+	
+	void placeShipCli(){
+		Scanner scanner = new Scanner(System.in);
+		Coordinate[] list = new Coordinate[size];
+
+		for( int i=0;i<size;i++){
+			System.out.printf("Enter the row for %s coordiante %d:",name,(i+1));
+        	int row = scanner.nextInt();
+			System.out.printf("Enter the column for %s coordiante %d:",name,(i+1));
+        	int col = scanner.nextInt();
+			Coordinate c = new Coordinate(row, col);
+			list[i]=c;
+		}
+        
+		this.placeShip(list);
+		scanner.close();
+	}
 }

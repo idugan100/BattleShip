@@ -4,21 +4,13 @@ public class Demo{
         
         //add battleship
         Ship battleShip = new Ship(4, "Battleship","b");
-        Coordinate[] list=new Coordinate[4];
-        list[0]=new Coordinate(0, 0);
-        list[1]=new Coordinate(0, 1);
-        list[2]=new Coordinate(0, 2);
-        list[3]=new Coordinate(0, 3);
         player.board.addShip(battleShip);
-        battleShip.placeShip(list);
+        battleShip.placeShipCli();
 
         //add patrol boat
         Ship patrol = new Ship(2, "Patrol Boat","p");
-        Coordinate[] list2=new Coordinate[2];
-        list2[0]=new Coordinate(3, 0);
-        list2[1]=new Coordinate(4, 0);
         player.board.addShip(patrol);
-        patrol.placeShip(list2);
+        patrol.placeShipCli();
 
 
         //print board
