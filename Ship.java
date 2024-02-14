@@ -80,6 +80,6 @@ public class Ship {
 		}
         
 		this.placeShip(list);
-		scanner.close();
+		// scanner.close();
 	}
 }

@@ -54,7 +54,6 @@ public class Board {
 		for(int i=0; i<shipList.size();i++){
 			if(shipList.get(i).isShipOnCoordinate(c)){
 				c.hitCoordinate();
-				coordinateList[c.getRow()][c.getColumn()].hitCoordinate();
 				shipList.get(i).updateCoordinate(c);
 				return c;
 
