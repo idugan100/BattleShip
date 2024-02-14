@@ -17,12 +17,15 @@ public class Board {
 	
 	public void printBoard() {
 		String[][] output= new String[HEIGHT][WIDTH];
+	
+		//add board coordinates
 		for(int i= 0; i<WIDTH; i++) {
 			for(int j=0; j<HEIGHT; j++) {
 				output[j][i]= coordinateList[j][i].getBoardModifier();
 			}
 		}
 
+		//override with ship coordinates
 		for(int i=0; i<shipList.size();i++){
 			Coordinate[] shipCoordinates=shipList.get(i).getCoordinates();
 			for(int j=0; j<shipCoordinates.length;j++){
@@ -30,7 +33,7 @@ public class Board {
 			}
 		}
 
-		// format
+		// todo print out the output array
 	}
 	
 	public void updateCoordinate(Coordinate c){
