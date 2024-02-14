@@ -51,7 +51,7 @@ public class Coordinate {
 			return "o";
 		}
 		else{
-			return "";
+			return " ";
 		}
 	}
 

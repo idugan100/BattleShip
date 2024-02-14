@@ -8,6 +8,8 @@ public class Board {
 	private Vector<Ship> shipList;
 	
 	Board(){
+		coordinateList= new Coordinate[HEIGHT][WIDTH];
+		shipList = new Vector<Ship>();
 		initializeCoordinates();
 	}
 	
@@ -21,7 +23,7 @@ public class Board {
 		//add board coordinates
 		for(int i= 0; i<WIDTH; i++) {
 			for(int j=0; j<HEIGHT; j++) {
-				output[j][i]= coordinateList[j][i].getBoardModifier();
+				output[j][i]= " " +coordinateList[j][i].getBoardModifier();
 			}
 		}
 
@@ -33,7 +35,15 @@ public class Board {
 			}
 		}
 
-		// todo print out the output array
+		//print output array
+		for(int i= 0; i<HEIGHT; i++) {
+			for(int j=0; j<WIDTH; j++) {
+				System.out.print(output[i][j]);
+			}
+			System.out.print("\n");
+		}
+		System.out.print("\n");
+
 	}
 	
 	public void updateCoordinate(Coordinate c){
