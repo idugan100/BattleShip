@@ -24,7 +24,7 @@ public class BattleShipView{
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon imageIcon = new ImageIcon("icon.jpeg"); // Replace "background.jpg" with your image file path
+                ImageIcon imageIcon = new ImageIcon("icon.png"); // Replace "background.jpg" with your image file path
                 Image image = imageIcon.getImage();
 
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
