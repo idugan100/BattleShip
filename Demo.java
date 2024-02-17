@@ -2,15 +2,7 @@ public class Demo{
     public static void main(String[] args){
         Player player = new Player();
         
-        //add battleship
-        Ship battleShip = new Ship(4, "Battleship","b");
-        player.board.addShip(battleShip);
-        battleShip.placeShipCli();
-
-        //add patrol boat
-        Ship patrol = new Ship(2, "Patrol Boat","p");
-        player.board.addShip(patrol);
-        patrol.placeShipCli();
+        player.add_ships_cli();
 
 
         //print board
@@ -26,12 +18,12 @@ public class Demo{
         player.getShotAt(shot2);
         player.board.printBoard();
 
-        if(player.board.allShipsSunk()){
-            System.out.println("Ships all sunk");
+        if(player.has_lost()){
+            System.out.println("player has lost game");
 
         }
         else{
-            System.out.println("Ships still afloat");
+            System.out.println("player has not lost game");
         }
     }
 }

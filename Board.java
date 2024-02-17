@@ -13,9 +13,20 @@ public class Board {
 		initializeCoordinates();
 	}
 	
-	public void addShip(Ship ship) {
+	public boolean addShip(Ship ship) {
+		for(int i=0; i<shipList.size();i++){
+			for(int j=0; j<ship.getCoordinates().length;j++){
+				if(shipList.get(i).isShipOnCoordinate(ship.getCoordinates()[j])){
+					return false;
+				}
+
+			}
+		}
+
 		shipList.add(ship);
+		return true;
 	}
+	
 	
 	public void printBoard() {
 		String[][] output= new String[HEIGHT][WIDTH];
