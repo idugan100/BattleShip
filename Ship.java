@@ -72,9 +72,9 @@ public class Ship {
 
 		for( int i=0;i<size;i++){
 			System.out.printf("Enter the row for %s coordiante %d:",name,(i+1));
-        	int row = scanner.nextInt();
+			int row = scanner.nextInt();
 			System.out.printf("Enter the column for %s coordiante %d:",name,(i+1));
-        	int col = scanner.nextInt();
+			int col = scanner.nextInt();
 			Coordinate c = new Coordinate(row, col);
 			list[i]=c;
 		}
