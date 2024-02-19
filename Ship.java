@@ -109,13 +109,16 @@ public class Ship {
 				}
 
 				if ( i > 0 ) {
-					// check for non-diagonal and adjacement placement
-					boolean isAdjOrSameRow = Math.abs(row - list[i - 1].getRow()) <= 1;
-					boolean isAdjOrSameCol = Math.abs(col - list[i - 1].getColumn()) <= 1;
+
+					// ensure linear placement by check if the current ship part is in the same row or column as the previous ship part
+					// this prevents diagonal  placements by requiring at least one of the coordinates to remain unchaged
 					boolean isLinearPlacement = (row == list[i - 1].getRow()) || (col == list[i - 1].getColumn());
 					
-					if( !( isAdjOrSameRow && isAdjOrSameCol && isLinearPlacement)) {
-						System.out.println("Invalid placement; ships can only be placed vertically or horizontally, but not diagonally.");
+					// prevents placing ship parts out of order
+					boolean isDirectlyAdjacent = Math.abs(row - list[i - 1].getRow()) + Math.abs(col - list[i - 1].getColumn()) == 1;
+					if( !isLinearPlacement || !isDirectlyAdjacent) {
+						System.out.println("Invalid placement; ships can only be placed directly next to each other, vertically or horizontally.");
+						continue;
 					} else {
 						list[i] = new Coordinate(row, col);
 						validCoordinate = true;
