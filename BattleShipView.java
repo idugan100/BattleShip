@@ -18,6 +18,8 @@ public class BattleShipView{
         playButton.setHorizontalTextPosition(AbstractButton.CENTER);
         playButton.setFont(new java.awt.Font("Arial", Font.BOLD, 48));
 
+
+
         //create panel with radar background image
         JPanel panel = new JPanel() {
             // Override the paintComponent method to draw the background image
@@ -38,5 +40,41 @@ public class BattleShipView{
 
         frame.pack();
         frame.setVisible(true);
+
+        // Action listener for play button. Takes from main menu to game screen.
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create the new frame (game window)
+                JFrame gameFrame = new JFrame("Game Window");
+                gameFrame.setMinimumSize(new Dimension(800, 800));
+                gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
+                gameFrame.add(label);
+
+                JButton exitButton = new JButton("Exit to Main Menu");
+                exitButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // hide game window
+                        gameFrame.setVisible(false);
+                        // show main menu
+                        frame.setVisible(true);
+                    }
+                });
+
+                // Exit button
+                gameFrame.setLayout(new FlowLayout()); // layout manager
+                gameFrame.add(exitButton);
+
+                // make game window visible
+                gameFrame.pack();
+                gameFrame.setVisible(true);
+
+                // hide main menu frame
+                frame.setVisible(false);
+            }
+        });
     }
 }
