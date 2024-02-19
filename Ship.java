@@ -66,7 +66,7 @@ public class Ship {
 		return;
 	}
 	
-	void placeShipCli(){
+	/*void placeShipCli(){
 		Scanner scanner = new Scanner(System.in);
 		Coordinate[] list = new Coordinate[size];
 
@@ -79,6 +79,56 @@ public class Ship {
 			list[i]=c;
 		}
         
+		this.placeShip(list);
+		// scanner.close();
+	}*/
+
+	void placeShipCli() {
+		Scanner scanner = new Scanner(System.in);
+		Coordinate[] list = new Coordinate[size];
+
+		for ( int i = 0; i < size; i++ ) {
+			boolean validCoordinate = false;
+
+			while(!(validCoordinate)) {
+				
+				System.out.printf("Enter the row for %s coordiante %d:",name,(i+1));
+				int row = scanner.nextInt();
+				
+				if ( row < 0 || row > 9) {
+					System.out.println("Only enter number between 0 and 9");
+					continue;
+				}
+				
+				System.out.printf("Enter the column for %s coordiante %d:",name,(i+1));
+				int col = scanner.nextInt();
+
+				if ( col < 0 || col > 9) {
+					System.out.println("Only enter number between 0 and 9");
+					continue;
+				}
+
+				if ( i > 0 ) {
+					// check for non-diagonal and adjacement placement
+					boolean isAdjOrSameRow = Math.abs(row - list[i - 1].getRow()) <= 1;
+					boolean isAdjOrSameCol = Math.abs(col - list[i - 1].getColumn()) <= 1;
+					boolean isLinearPlacement = (row == list[i - 1].getRow()) || (col == list[i - 1].getColumn());
+					
+					if( !( isAdjOrSameRow && isAdjOrSameCol && isLinearPlacement)) {
+						System.out.println("Invalid placement; ships can only be placed vertically or horizontally, but not diagonally.");
+					} else {
+						list[i] = new Coordinate(row, col);
+						validCoordinate = true;
+					}
+
+				} else {
+					// First coordinate, don't have to check diagonal/adjacenecy
+					list[i] = new Coordinate(row, col);
+					validCoordinate = true;
+				}
+			}
+		}
+
 		this.placeShip(list);
 		// scanner.close();
 	}
