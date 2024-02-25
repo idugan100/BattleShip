@@ -155,7 +155,7 @@ public class Server extends JFrame
    {
       try // send object to client
       {
-         output.writeObject( "SERVER>>> " + message );
+         output.writeObject(  message );
          output.flush(); // flush output to client
          displayMessage( "\nSERVER>>> " + message );
       } // end try
