@@ -1,4 +1,5 @@
 import java.util.Vector;
+import java.util.Random;
 
 public class Board {
 
@@ -15,6 +16,27 @@ public class Board {
 	
 	public void addShip(Ship ship) {
 		shipList.add(ship);
+	}
+
+	public void placeShipsRandomly() {
+		Random random = new Random(); // making random object
+
+		for (Ship ship : shipList) {
+			boolean placed = false;
+			while(!placed) {
+				int row = random.nextInt(HEIGHT);
+				int col = random.nextInt(WIDTH);
+				// only horizontal right now
+				// check if ship fits
+				if (col + ship.getSize() <= WIDTH) {
+					Coordinate[] coordinates = new Coordinate[ship.getSize()];
+					for (int i = 0; i < ship.getSize(); i++) {
+						coordinates[i] = new Coordinate(row, col + i);
+					}
+					placed = ship.placeShip(coordinates);
+				}
+			}
+		}
 	}
 	
 	public void printBoard() {
@@ -79,5 +101,9 @@ public class Board {
 			}
 		}
 		return true;
+	}
+
+	public Vector<Ship> getShipList() {
+		return shipList;
 	}
 }

@@ -5,6 +5,10 @@ import java.awt.Image;
 
 public class BattleShipView{
 
+    // currently being used for testing
+    private static Board board = new Board();
+    private static Player player = new Player();
+
     public static void main(String[] args) {
         //Create and set up the window.
         JFrame frame = new JFrame("BattleShip");
@@ -44,6 +48,9 @@ public class BattleShipView{
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                player.add_ships();
+                player.board.placeShipsRandomly();
+
                 // Create game window
                 JFrame gameFrame = new JFrame("Game Window");
                 gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,17 +103,57 @@ public class BattleShipView{
         boardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         boardPanel.setPreferredSize(new Dimension(400, 400));
         
-        // Populate board panel
+        // Populate board panel based on board state
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 JButton cellButton = new JButton();
                 cellButton.setPreferredSize(new Dimension(40, 40));
                 cellButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-                boardPanel.add(cellButton);
+
+                // ADDED FOR TESTING
+                boolean hasShip = false;
+                for (Ship ship : player.board.getShipList()) {
+                    for (Coordinate coord : ship.getCoordinates()) {
+                        if (coord.getRow() == row && coord.getColumn() == col) {
+                            hasShip = true;
+                            break;
+                        }
+                    }
+                    if (hasShip) {
+                        cellButton.setBackground(Color.RED);
+                        break;
+                    }
+
+                }
+
+                // action listener for shots
+
+                final int finalRow = row;
+                final int finalCol = col;
+                cellButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Coordinate shot = new Coordinate(finalRow, finalCol);
+                        Coordinate result = player.board.handleShot(shot);
+
+                        // update button based on hit or miss
+                        if (result.isHit()) {
+                            cellButton.setBackground(Color.BLACK);
+                        } else {
+                            cellButton.setBackground(Color.YELLOW); // miss shot
+                        }
+                        cellButton.setEnabled(false);
+
+                        if(player.board.allShipsSunk()) {
+                            JOptionPane.showMessageDialog(null, "Game Over!");
+                        }
+                    }
+                });
+
+                boardPanel.add(cellButton);      
             }
         }
         return boardPanel;
+
     }
-
-
 }
