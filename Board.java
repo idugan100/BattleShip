@@ -91,4 +91,16 @@ public class Board {
 		}
 		return true;
 	}
+
+	public int numberOfHits(){
+		int total=0;
+		for(int i=0; i<WIDTH;i++){
+			for(int j=0; j<HEIGHT;j++){
+				if(coordinateList[i][j].isHit()){
+					total++;
+				}
+			}
+		}
+		return total;
+	}
 }
