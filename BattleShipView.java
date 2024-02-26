@@ -107,6 +107,8 @@ public class BattleShipView{
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 JButton cellButton = new JButton();
+                cellButton.setBackground(Color.BLUE);
+                cellButton.setOpaque(true);
                 cellButton.setPreferredSize(new Dimension(40, 40));
                 cellButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
@@ -139,8 +141,10 @@ public class BattleShipView{
                         // update button based on hit or miss
                         if (result.isHit()) {
                             cellButton.setBackground(Color.BLACK);
+
                         } else {
-                            cellButton.setBackground(Color.YELLOW); // miss shot
+                            cellButton.setBackground(Color.WHITE); // miss shot
+
                         }
                         cellButton.setEnabled(false);
 
