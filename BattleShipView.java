@@ -143,10 +143,11 @@ public class BattleShipView{
                         // update button based on hit or miss
                         if (result.isHit()) {
                             cellButton.setBackground(Color.BLACK);
+                            //play hit audio
 
                         } else {
                             cellButton.setBackground(Color.WHITE); // miss shot
-
+                            //play miss audio
                         }
                         cellButton.setEnabled(false);
 
