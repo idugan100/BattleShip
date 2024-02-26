@@ -1,4 +1,5 @@
 import java.util.Vector;
+import java.util.Random;
 
 public class Board {
 
@@ -14,17 +15,38 @@ public class Board {
 	}
 	
 	public boolean addShip(Ship ship) {
-		for(int i=0; i<shipList.size();i++){
-			for(int j=0; j<ship.getCoordinates().length;j++){
-				if(shipList.get(i).isShipOnCoordinate(ship.getCoordinates()[j])){
-					return false;
-				}
+		// for(int i=0; i<shipList.size();i++){
+		// 	for(int j=0; j<ship.getCoordinates().length;j++){
+		// 		if(shipList.get(i).isShipOnCoordinate(ship.getCoordinates()[j])){
+		// 			return false;
+		// 		}
 
-			}
-		}
+		// 	}
+		// }
 
 		shipList.add(ship);
 		return true;
+	}
+
+	public void placeShipsRandomly() {
+		Random random = new Random(); // making random object
+
+		for (Ship ship : shipList) {
+			boolean placed = false;
+			while(!placed) {
+				int row = random.nextInt(HEIGHT);
+				int col = random.nextInt(WIDTH);
+				// only horizontal right now
+				// check if ship fits
+				if (col + ship.getSize() <= WIDTH) {
+					Coordinate[] coordinates = new Coordinate[ship.getSize()];
+					for (int i = 0; i < ship.getSize(); i++) {
+						coordinates[i] = new Coordinate(row, col + i);
+					}
+					placed = ship.placeShip(coordinates);
+				}
+			}
+		}
 	}
 	
 	
@@ -92,6 +114,9 @@ public class Board {
 		return true;
 	}
 
+	public Vector<Ship> getShipList() {
+		return shipList;
+}
 	public int numberOfHits(){
 		int total=0;
 		for(int i=0; i<WIDTH;i++){
