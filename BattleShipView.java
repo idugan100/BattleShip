@@ -6,8 +6,7 @@ import java.awt.Image;
 public class BattleShipView{
 
     // currently being used for testing
-    private static Board board = new Board();
-    private static Player player = new Player();
+    private static Game game = new Game();
 
     public static void main(String[] args) {
         //Create and set up the window.
@@ -48,8 +47,10 @@ public class BattleShipView{
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                player.add_ships();
-                player.board.placeShipsRandomly();
+                // game.player.add_ships();
+                game.player.board.placeShipsRandomly();
+                game.player.enemyBoard.placeShipsRandomly();
+                game.player.board.printBoard();
 
                 // Create game window
                 JFrame gameFrame = new JFrame("Game Window");
@@ -62,13 +63,14 @@ public class BattleShipView{
                 gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
 
                 // Initialize player and targeting BoardPanel 
-                JPanel playerBoardPanel = initializeBoardPanel();
-                JPanel targetingBoardPanel = initializeBoardPanel();
+                JPanel playerBoardPanel = initializeBoardPanel(game.player.board);
+                JPanel targetingBoardPanel = initializeBoardPanel(game.player.enemyBoard);
 
                 // Add boards to game background
-                gameBackgroundPanel.add(playerBoardPanel);
-                gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
                 gameBackgroundPanel.add(targetingBoardPanel);
+                gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                gameBackgroundPanel.add(playerBoardPanel);
+
 
                 // Create and add label and exit button
                 JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
@@ -97,7 +99,7 @@ public class BattleShipView{
         });
     }
 
-    private static JPanel initializeBoardPanel() {
+    private static JPanel initializeBoardPanel(Board board) {
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(10, 10));
         boardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -114,7 +116,7 @@ public class BattleShipView{
 
                 // ADDED FOR TESTING
                 boolean hasShip = false;
-                for (Ship ship : player.board.getShipList()) {
+                for (Ship ship : board.getShipList()) {
                     for (Coordinate coord : ship.getCoordinates()) {
                         if (coord.getRow() == row && coord.getColumn() == col) {
                             hasShip = true;
@@ -136,7 +138,7 @@ public class BattleShipView{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Coordinate shot = new Coordinate(finalRow, finalCol);
-                        Coordinate result = player.board.handleShot(shot);
+                        Coordinate result = board.handleShot(shot);
 
                         // update button based on hit or miss
                         if (result.isHit()) {
@@ -148,7 +150,7 @@ public class BattleShipView{
                         }
                         cellButton.setEnabled(false);
 
-                        if(player.board.allShipsSunk()) {
+                        if(game.hasWon() || game.hasLost()) {
                             JOptionPane.showMessageDialog(null, "Game Over!");
                         }
                     }

@@ -15,14 +15,14 @@ public class Board {
 	}
 	
 	public boolean addShip(Ship ship) {
-		// for(int i=0; i<shipList.size();i++){
-		// 	for(int j=0; j<ship.getCoordinates().length;j++){
-		// 		if(shipList.get(i).isShipOnCoordinate(ship.getCoordinates()[j])){
-		// 			return false;
-		// 		}
+		for(int i=0; i<shipList.size();i++){
+			for(int j=0; j<ship.getCoordinates().length;j++){
+				if(shipList.get(i).isShipOnCoordinate(ship.getCoordinates()[j])){
+					return false;
+				}
 
-		// 	}
-		// }
+			}
+		}
 
 		shipList.add(ship);
 		return true;
@@ -30,8 +30,19 @@ public class Board {
 
 	public void placeShipsRandomly() {
 		Random random = new Random(); // making random object
+		Vector<Ship> tempShipList = new Vector<Ship>();
+		Ship battleShip = new Ship(4, "Battleship","b");
+		Ship patrolShip = new Ship(2, "Patrol Boat","p");
+		Ship submarine = new Ship(3, "Submarine","s");
+		Ship destroyer = new Ship(3, "Destroyer","d");
+		Ship carrier = new Ship(5, "Aircraft Carrier","c");
+		tempShipList.add(battleShip);
+		tempShipList.add(patrolShip);
+		tempShipList.add(submarine);
+		tempShipList.add(destroyer);
+		tempShipList.add(carrier);
 
-		for (Ship ship : shipList) {
+		for (Ship ship : tempShipList) {
 			boolean placed = false;
 			while(!placed) {
 				int row = random.nextInt(HEIGHT);
@@ -43,7 +54,9 @@ public class Board {
 					for (int i = 0; i < ship.getSize(); i++) {
 						coordinates[i] = new Coordinate(row, col + i);
 					}
-					placed = ship.placeShip(coordinates);
+					ship.placeShip(coordinates);
+					placed=addShip(ship);
+					printBoard();
 				}
 			}
 		}
@@ -88,6 +101,7 @@ public class Board {
 			if(shipList.get(i).isShipOnCoordinate(c)){
 				c.hitCoordinate();
 				shipList.get(i).updateCoordinate(c);
+				coordinateList[c.row][c.column].hitCoordinate();
 				return c;
 
 			}

@@ -58,17 +58,4 @@ public class Player{
 
     }
 
-    void add_ships(){
-            Ship battleShip = new Ship(4, "Battleship","b");
-            Ship patrolShip = new Ship(2, "Patrol Boat","p");
-            Ship submarine = new Ship(3, "Submarine","s");
-            Ship destroyer = new Ship(3, "Destroyer","d");
-            Ship carrier = new Ship(5, "Aircraft Carrier","c");
-     
-            board.addShip(battleShip);
-            board.addShip(patrolShip);
-            board.addShip(submarine);
-            board.addShip(destroyer);
-            board.addShip(carrier);
-    }
 }

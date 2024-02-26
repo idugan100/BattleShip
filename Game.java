@@ -60,10 +60,14 @@ public class Game{
     }
 
     boolean hasWon(){
+            System.out.printf("%d",player.enemyBoard.numberOfHits());
         return player.enemyBoard.numberOfHits() == 17;
     }
 
     boolean hasLost(){
+        if(player.board.allShipsSunk()){
+            System.out.println("won");
+        }
         return player.board.allShipsSunk();
     }
 }
