@@ -120,7 +120,7 @@ public class BattleShipView{
                         }
                     }
                     if (hasShip) {
-                        cellButton.setBackground(Color.RED);
+                        cellButton.setBackground(Color.BLACK);
                         break;
                     }
 
@@ -135,17 +135,20 @@ public class BattleShipView{
                     public void actionPerformed(ActionEvent e) {
                         Coordinate shot = new Coordinate(finalRow, finalCol);
                         Coordinate result = game.shoot(shot);
+                        Audio audio = new Audio();
 
                         // update button based on hit or miss
                         if (result.isHit()) {
-                            cellButton.setBackground(Color.BLACK);
-                                cellButton.paintImmediately(cellButton.getVisibleRect()); // Repaint immediately after changing color
-                                //play miss audio
+                            audio.setFile("explosion.wav");
+                            audio.play();
+                            cellButton.setBackground(Color.RED);
+                            cellButton.paintImmediately(cellButton.getVisibleRect());
 
                         } else {
-                            cellButton.setBackground(Color.WHITE); // miss shot
-                                cellButton.paintImmediately(cellButton.getVisibleRect()); // Repaint immediately after changing color
-                                //play miss audio
+                            audio.setFile("miss.wav");
+                            audio.play();
+                            cellButton.setBackground(Color.WHITE);
+                            cellButton.paintImmediately(cellButton.getVisibleRect()); 
                         }
                         if(game.hasWon() || game.hasLost()) {
                             JOptionPane.showMessageDialog(null, "Game Over!");
@@ -159,10 +162,16 @@ public class BattleShipView{
 
                         Coordinate incoming_shot=game.getShot();
                         if(incoming_shot.isHit()){
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].setBackground(Color.YELLOW);
+                            audio.setFile("explosion.wav");
+                            audio.play();
+                            coordinateGrid[incoming_shot.row][incoming_shot.column].setBackground(Color.RED);
+                            cellButton.paintImmediately(cellButton.getVisibleRect());
                         }
                         else{
+                            audio.setFile("miss.wav");
+                            audio.play();
                             coordinateGrid[incoming_shot.row][incoming_shot.column].setBackground(Color.WHITE);
+                            cellButton.paintImmediately(cellButton.getVisibleRect());
                         }  
                         cellButton.removeActionListener(this); 
 
@@ -202,7 +211,7 @@ public class BattleShipView{
                         }
                     }
                     if (hasShip) {
-                        cellButton.setBackground(Color.RED);
+                        cellButton.setBackground(Color.BLACK);
                         break;
                     }
 
