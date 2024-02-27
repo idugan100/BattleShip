@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.*;
 import java.awt.Image;
 
@@ -7,21 +9,18 @@ public class BattleShipView{
 
     // currently being used for testing
     private static Game game = new Game();
+    private static JButton[][] coordinateGrid;
+
 
     public static void main(String[] args) {
+        coordinateGrid= new JButton[10][10];
         //Create and set up the window.
-        JFrame frame = new JFrame("BattleShip");
-        //frame.setMinimumSize(new Dimension(800, 800));
-        //frame.setMaximumSize(new Dimension(1000,1200));
+        JFrame frame = new JFrame("BattleShip");;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //create Play Button
         JButton playButton = new JButton("Play Game");
         playButton.setFont(new java.awt.Font("Arial", Font.BOLD, 48)); 
-
-        /*playButton.setVerticalTextPosition(AbstractButton.CENTER);
-        playButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        playButton.setFont(new java.awt.Font("Arial", Font.BOLD, 48));*/
 
         // Background Image Panel (Main Menu)
         JPanel backgroundPanel = new JPanel() {
@@ -47,9 +46,7 @@ public class BattleShipView{
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // game.player.add_ships();
                 game.player.board.placeShipsRandomly();
-                game.player.enemyBoard.placeShipsRandomly();
                 game.player.board.printBoard();
 
                 // Create game window
@@ -59,12 +56,11 @@ public class BattleShipView{
 
                 // Create components for the game window
                 JPanel gameBackgroundPanel = new JPanel();
-                //gameBackgroundPanel.setLayout(new GridLayout(2, 1)); //  layout to arrange the two boards
                 gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
 
                 // Initialize player and targeting BoardPanel 
-                JPanel playerBoardPanel = initializeBoardPanel(game.player.board);
-                JPanel targetingBoardPanel = initializeBoardPanel(game.player.enemyBoard);
+                JPanel playerBoardPanel = initializeBoardPanel();
+                JPanel targetingBoardPanel = initializeEnemyBoardPanel();
 
                 // Add boards to game background
                 gameBackgroundPanel.add(targetingBoardPanel);
@@ -99,7 +95,7 @@ public class BattleShipView{
         });
     }
 
-    private static JPanel initializeBoardPanel(Board board) {
+    private static JPanel initializeEnemyBoardPanel() {
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(10, 10));
         boardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -116,7 +112,7 @@ public class BattleShipView{
 
                 // ADDED FOR TESTING
                 boolean hasShip = false;
-                for (Ship ship : board.getShipList()) {
+                for (Ship ship : game.player.enemyBoard.getShipList()) {
                     for (Coordinate coord : ship.getCoordinates()) {
                         if (coord.getRow() == row && coord.getColumn() == col) {
                             hasShip = true;
@@ -138,22 +134,39 @@ public class BattleShipView{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Coordinate shot = new Coordinate(finalRow, finalCol);
-                        Coordinate result = board.handleShot(shot);
+                        Coordinate result = game.shoot(shot);
 
                         // update button based on hit or miss
                         if (result.isHit()) {
                             cellButton.setBackground(Color.BLACK);
-                            //play hit audio
+                                cellButton.paintImmediately(cellButton.getVisibleRect()); // Repaint immediately after changing color
+                                //play miss audio
 
                         } else {
                             cellButton.setBackground(Color.WHITE); // miss shot
-                            //play miss audio
+                                cellButton.paintImmediately(cellButton.getVisibleRect()); // Repaint immediately after changing color
+                                //play miss audio
                         }
-                        cellButton.setEnabled(false);
-
                         if(game.hasWon() || game.hasLost()) {
                             JOptionPane.showMessageDialog(null, "Game Over!");
                         }
+                        try{
+                            TimeUnit.MILLISECONDS.sleep(1000);
+  
+                        }catch(Exception err){
+
+                        }
+
+                        Coordinate incoming_shot=game.getShot();
+                        if(incoming_shot.isHit()){
+                            coordinateGrid[incoming_shot.row][incoming_shot.column].setBackground(Color.YELLOW);
+                        }
+                        else{
+                            coordinateGrid[incoming_shot.row][incoming_shot.column].setBackground(Color.WHITE);
+                        }  
+                        cellButton.removeActionListener(this); 
+
+
                     }
                 });
 
@@ -163,4 +176,44 @@ public class BattleShipView{
         return boardPanel;
 
     }
+
+    private static JPanel initializeBoardPanel() {
+        JPanel boardPanel = new JPanel();
+        boardPanel.setLayout(new GridLayout(10, 10));
+        boardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        boardPanel.setPreferredSize(new Dimension(400, 400));
+        
+        // Populate board panel based on board state
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                JButton cellButton = new JButton();
+                cellButton.setBackground(Color.BLUE);
+                cellButton.setOpaque(true);
+                cellButton.setPreferredSize(new Dimension(40, 40));
+                cellButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+                // ADDED FOR TESTING
+                boolean hasShip = false;
+                for (Ship ship : game.player.board.getShipList()) {
+                    for (Coordinate coord : ship.getCoordinates()) {
+                        if (coord.getRow() == row && coord.getColumn() == col) {
+                            hasShip = true;
+                            break;
+                        }
+                    }
+                    if (hasShip) {
+                        cellButton.setBackground(Color.RED);
+                        break;
+                    }
+
+                }
+
+                boardPanel.add(cellButton);   
+                coordinateGrid[row][col]=cellButton;   
+            }
+        }
+        return boardPanel;
+
+    }
+
 }

@@ -22,15 +22,29 @@ public class Game{
 
     }
 
-    void shoot(int row, int col){
-        Coordinate c=new  Coordinate(row, col);
-        //send coordiante over network
-        //read response
-        player.shoot(c);
+    Coordinate shoot(Coordinate c){
+        String result="";
+        try {
+            connection.sendData(Integer.toString(c.row));
+            connection.sendData(Integer.toString(c.column));
+            result= (String) connection.input.readObject();
 
+        } catch (Exception e) {
+            System.out.println("error in get shot networking");
+        }
+        System.out.println(result.length());
+        if(result.equals("hit")){
+            c.hitCoordinate();
+
+        }
+        else{
+            c.missCoordinate();
+        }
+        player.shoot(c);
+        return c;
     }
 
-    void getShot(){
+    Coordinate getShot(){
         String row_string="";
         String col_string="";
         try{
@@ -57,17 +71,14 @@ public class Game{
             connection.sendData("miss");
 
         }
+        return c;
     }
 
     boolean hasWon(){
-            System.out.printf("%d",player.enemyBoard.numberOfHits());
         return player.enemyBoard.numberOfHits() == 17;
     }
 
     boolean hasLost(){
-        if(player.board.allShipsSunk()){
-            System.out.println("won");
-        }
         return player.board.allShipsSunk();
     }
 }
