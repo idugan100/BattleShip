@@ -1,15 +1,18 @@
 import java.util.Scanner;
+import javax.swing.ImageIcon;
 
 public class Ship {
 	private Coordinate coordinateList[];
 	private int size;
 	private String name;
 	private String marker;
+	private ImageIcon imageIcon;
 	
-	Ship(int size, String name, String marker){
+	Ship(int size, String name, String marker, ImageIcon imageIcon){
 		this.size=size;
 		this.name=name;
 		this.marker=marker;
+		this.imageIcon=imageIcon;
 	}
 	
 	boolean isSunk() {
@@ -63,6 +66,10 @@ public class Ship {
 			}
 		}
 		return;
+	}
+
+	public ImageIcon getImageIcon() {
+		return imageIcon;
 	}
 	
 	/*void placeShipCli(){

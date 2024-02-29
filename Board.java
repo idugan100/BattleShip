@@ -130,7 +130,8 @@ public class Board {
 
 	public Vector<Ship> getShipList() {
 		return shipList;
-}
+	}
+	
 	public int numberOfHits(){
 		int total=0;
 		for(int i=0; i<WIDTH;i++){
@@ -141,5 +142,9 @@ public class Board {
 			}
 		}
 		return total;
+	}
+
+	public boolean removeShip(Ship shipToRemove) {
+		return shipList.remove(shipToRemove);
 	}
 }

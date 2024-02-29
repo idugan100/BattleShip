@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import javax.swing.JFrame;
 
 public class Client
 {
@@ -14,11 +15,13 @@ public class Client
    private String message = ""; // message from server
    private String chatServer; // host server for this application
    private Socket client; // socket to communicate with server
+   
+   private JFrame frame;
 
    // initialize chatServer and set up GUI
    public Client( String host )
    {
-
+      frame = new JFrame("Client Application");
       chatServer = host; // set server to which this client connects
 
       
@@ -116,6 +119,9 @@ public class Client
       } // end catch
    } // end method sendData
 
+   public void setDefaultCloseOperation(int operation) {
+      frame.setDefaultCloseOperation(operation);
+   }
 
 } // end class Client
 
