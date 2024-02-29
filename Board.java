@@ -1,4 +1,5 @@
 import java.util.Vector;
+import java.util.Random;
 
 public class Board {
 
@@ -13,9 +14,54 @@ public class Board {
 		initializeCoordinates();
 	}
 	
-	public void addShip(Ship ship) {
+	public boolean addShip(Ship ship) {
+		for(int i=0; i<shipList.size();i++){
+			for(int j=0; j<ship.getCoordinates().length;j++){
+				if(shipList.get(i).isShipOnCoordinate(ship.getCoordinates()[j])){
+					return false;
+				}
+
+			}
+		}
+
 		shipList.add(ship);
+		return true;
 	}
+
+	public void placeShipsRandomly() {
+		Random random = new Random(); // making random object
+		Vector<Ship> tempShipList = new Vector<Ship>();
+		Ship battleShip = new Ship(4, "Battleship","b");
+		Ship patrolShip = new Ship(2, "Patrol Boat","p");
+		Ship submarine = new Ship(3, "Submarine","s");
+		Ship destroyer = new Ship(3, "Destroyer","d");
+		Ship carrier = new Ship(5, "Aircraft Carrier","c");
+		tempShipList.add(battleShip);
+		tempShipList.add(patrolShip);
+		tempShipList.add(submarine);
+		tempShipList.add(destroyer);
+		tempShipList.add(carrier);
+
+		for (Ship ship : tempShipList) {
+			boolean placed = false;
+			while(!placed) {
+				int row = random.nextInt(HEIGHT);
+				int col = random.nextInt(WIDTH);
+				// only horizontal right now
+				// check if ship fits
+				if (col + ship.getSize() <= WIDTH) {
+					Coordinate[] coordinates = new Coordinate[ship.getSize()];
+					for (int i = 0; i < ship.getSize(); i++) {
+						coordinates[i] = new Coordinate(row, col + i);
+					}
+					ship.placeShip(coordinates);
+					placed=addShip(ship);
+					printBoard();
+				}
+			}
+		}
+	}
+	
 	
 	public void printBoard() {
 		String[][] output= new String[HEIGHT][WIDTH];
@@ -55,6 +101,7 @@ public class Board {
 			if(shipList.get(i).isShipOnCoordinate(c)){
 				c.hitCoordinate();
 				shipList.get(i).updateCoordinate(c);
+				coordinateList[c.row][c.column].hitCoordinate();
 				return c;
 
 			}
@@ -79,5 +126,20 @@ public class Board {
 			}
 		}
 		return true;
+	}
+
+	public Vector<Ship> getShipList() {
+		return shipList;
+}
+	public int numberOfHits(){
+		int total=0;
+		for(int i=0; i<WIDTH;i++){
+			for(int j=0; j<HEIGHT;j++){
+				if(coordinateList[i][j].isHit()){
+					total++;
+				}
+			}
+		}
+		return total;
 	}
 }

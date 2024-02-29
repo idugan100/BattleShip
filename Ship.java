@@ -30,7 +30,6 @@ public class Ship {
 			throw new IllegalArgumentException("Incorrect Number of Coordinates");
 		}
 		
-	//todo add in collision handling when placing a ship
 		this.coordinateList=list;
 		return true;
 	}
