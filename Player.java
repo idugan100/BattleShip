@@ -1,5 +1,7 @@
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
+
 public class Player{
     public Board board;
     public Board enemyBoard;
@@ -24,25 +26,32 @@ public class Player{
     }
 
     void add_ships_cli(){
-        board.printBoard();
-       Ship battleShip = new Ship(4, "Battleship","b");
-       place_ship_handle_collisions(battleShip);
-      
-        board.printBoard();
-       Ship patrolShip = new Ship(2, "Patrol Boat","p");
-       place_ship_handle_collisions(patrolShip);
-
        board.printBoard();
-       Ship submarine = new Ship(3, "Submarine","s");
-       place_ship_handle_collisions(submarine);
 
-       board.printBoard(); 
-       Ship destroyer = new Ship(3, "Destroyer","d");
-       place_ship_handle_collisions(destroyer);
+       ImageIcon battleShipIcon = new ImageIcon("battleship.png");
+       ImageIcon patrolShipIcon = new ImageIcon("patrol.png");
+       ImageIcon submarineIcon = new ImageIcon("sub.png");
+       ImageIcon destroyerIcon = new ImageIcon("destroyer.png");
+       ImageIcon carrierIcon = new ImageIcon("carrier.png");
 
-       board.printBoard();
-       Ship carrier = new Ship(5, "Aircraft Carrier","c");
-       place_ship_handle_collisions(carrier);
+        Ship battleShip = new Ship(4, "Battleship","b", battleShipIcon);
+        place_ship_handle_collisions(battleShip);
+        
+            board.printBoard();
+        Ship patrolShip = new Ship(2, "Patrol Boat","p", patrolShipIcon);
+        place_ship_handle_collisions(patrolShip);
+
+        board.printBoard();
+        Ship submarine = new Ship(3, "Submarine","s", submarineIcon);
+        place_ship_handle_collisions(submarine);
+
+        board.printBoard(); 
+        Ship destroyer = new Ship(3, "Destroyer","d", destroyerIcon);
+        place_ship_handle_collisions(destroyer);
+
+        board.printBoard();
+        Ship carrier = new Ship(5, "Aircraft Carrier","c", carrierIcon);
+        place_ship_handle_collisions(carrier);
     }
 
     void place_ship_handle_collisions(Ship ship){

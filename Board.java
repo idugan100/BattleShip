@@ -1,4 +1,7 @@
 import java.util.Vector;
+
+import javax.swing.ImageIcon;
+
 import java.util.Random;
 
 public class Board {
@@ -31,11 +34,18 @@ public class Board {
 	public void placeShipsRandomly() {
 		Random random = new Random(); // making random object
 		Vector<Ship> tempShipList = new Vector<Ship>();
-		Ship battleShip = new Ship(4, "Battleship","b");
-		Ship patrolShip = new Ship(2, "Patrol Boat","p");
-		Ship submarine = new Ship(3, "Submarine","s");
-		Ship destroyer = new Ship(3, "Destroyer","d");
-		Ship carrier = new Ship(5, "Aircraft Carrier","c");
+
+		ImageIcon battleShipIcon = new ImageIcon("battleship.png");
+		ImageIcon patrolShipIcon = new ImageIcon("patrol.png");
+		ImageIcon submarineIcon = new ImageIcon("sub.png");
+		ImageIcon destroyerIcon = new ImageIcon("destroyer.png");
+		ImageIcon carrierIcon = new ImageIcon("carrier.png");
+
+		Ship battleShip = new Ship(4, "Battleship","b", battleShipIcon);
+		Ship patrolShip = new Ship(2, "Patrol Boat","p", patrolShipIcon);
+		Ship submarine = new Ship(3, "Submarine","s", submarineIcon);
+		Ship destroyer = new Ship(3, "Destroyer","d", destroyerIcon);
+		Ship carrier = new Ship(5, "Aircraft Carrier","c", carrierIcon);
 		tempShipList.add(battleShip);
 		tempShipList.add(patrolShip);
 		tempShipList.add(submarine);
