@@ -33,8 +33,22 @@ public class BattleShipView{
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        backgroundPanel.setLayout(new GridBagLayout());
-        backgroundPanel.add(playButton, new GridBagConstraints());
+        backgroundPanel.add(playButton);
+
+        JButton battleship = new JButton("batttle ship");
+        JButton submarine = new JButton("sub ship");
+        JButton patrol = new JButton("patrol ship");
+        JButton carrier = new JButton("carrier ship");
+        JButton destroyer = new JButton("destroyer ship");
+
+        backgroundPanel.add(battleship);
+        backgroundPanel.add(submarine);
+        backgroundPanel.add(patrol);
+        backgroundPanel.add(carrier);
+        backgroundPanel.add(destroyer);
+
+
+
         frame.add(backgroundPanel);
 
         frame.pack();
