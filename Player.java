@@ -28,29 +28,23 @@ public class Player{
     void add_ships_cli(){
        board.printBoard();
 
-       ImageIcon battleShipIcon = new ImageIcon("battleship.png");
-       ImageIcon patrolShipIcon = new ImageIcon("patrol.png");
-       ImageIcon submarineIcon = new ImageIcon("sub.png");
-       ImageIcon destroyerIcon = new ImageIcon("destroyer.png");
-       ImageIcon carrierIcon = new ImageIcon("carrier.png");
-
-        Ship battleShip = new Ship(4, "Battleship","b", battleShipIcon);
+        Ship battleShip = new Ship(4, "Battleship","b");
         place_ship_handle_collisions(battleShip);
         
             board.printBoard();
-        Ship patrolShip = new Ship(2, "Patrol Boat","p", patrolShipIcon);
+        Ship patrolShip = new Ship(2, "Patrol Boat","p");
         place_ship_handle_collisions(patrolShip);
 
         board.printBoard();
-        Ship submarine = new Ship(3, "Submarine","s", submarineIcon);
+        Ship submarine = new Ship(3, "Submarine","s");
         place_ship_handle_collisions(submarine);
 
         board.printBoard(); 
-        Ship destroyer = new Ship(3, "Destroyer","d", destroyerIcon);
+        Ship destroyer = new Ship(3, "Destroyer","d");
         place_ship_handle_collisions(destroyer);
 
         board.printBoard();
-        Ship carrier = new Ship(5, "Aircraft Carrier","c", carrierIcon);
+        Ship carrier = new Ship(5, "Aircraft Carrier","c");
         place_ship_handle_collisions(carrier);
     }
 
