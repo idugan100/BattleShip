@@ -33,7 +33,10 @@ public class BattleShipView{
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        backgroundPanel.add(playButton);
+
+        backgroundPanel.setLayout(new BorderLayout()); // Set the layout of the backgroundPanel to BorderLayout
+        backgroundPanel.add(playButton, BorderLayout.SOUTH);
+
 
         JButton battleship = new JButton("batttle ship");
         JButton submarine = new JButton("sub ship");
@@ -41,16 +44,22 @@ public class BattleShipView{
         JButton carrier = new JButton("carrier ship");
         JButton destroyer = new JButton("destroyer ship");
 
-        backgroundPanel.add(battleship);
-        backgroundPanel.add(submarine);
-        backgroundPanel.add(patrol);
-        backgroundPanel.add(carrier);
-        backgroundPanel.add(destroyer);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(battleship);
+        buttonPanel.add(submarine);
+        buttonPanel.add(patrol);
+        buttonPanel.add(carrier);
+        buttonPanel.add(destroyer);
+        backgroundPanel.add(buttonPanel, BorderLayout.NORTH);
 
 
+        JPanel boardPanel = new JPanel();
+        boardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        backgroundPanel.add(boardPanel, BorderLayout.CENTER);
 
         frame.add(backgroundPanel);
-
+        
         frame.pack();
         frame.setMinimumSize(new Dimension(800, 800));
         frame.setLocationRelativeTo(null); // centers the window
