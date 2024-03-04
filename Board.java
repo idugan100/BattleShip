@@ -47,20 +47,36 @@ public class Board {
 			while(!placed) {
 				int row = random.nextInt(HEIGHT);
 				int col = random.nextInt(WIDTH);
-				// only horizontal right now
-				// check if ship fits
-				if (col + ship.getSize() <= WIDTH) {
-					Coordinate[] coordinates = new Coordinate[ship.getSize()];
-					for (int i = 0; i < ship.getSize(); i++) {
-						coordinates[i] = new Coordinate(row, col + i);
+				int dir = random.nextInt(2);
+
+				//horizontal
+				if(dir==0){
+					if ((col + ship.getSize() <= WIDTH) ) {
+						Coordinate[] coordinates = new Coordinate[ship.getSize()];
+						for (int i = 0; i < ship.getSize(); i++) {
+							coordinates[i] = new Coordinate(row, col + i);
+						}
+						ship.placeShip(coordinates);
+						placed=addShip(ship);
+						printBoard();
 					}
-					ship.placeShip(coordinates);
-					placed=addShip(ship);
-					printBoard();
 				}
+				if(dir==1){
+					if ((row + ship.getSize() <= HEIGHT) ) {
+						Coordinate[] coordinates = new Coordinate[ship.getSize()];
+						for (int i = 0; i < ship.getSize(); i++) {
+							coordinates[i] = new Coordinate(row+i, col);
+						}
+						ship.placeShip(coordinates);
+						placed=addShip(ship);
+						printBoard();
+					}
+				}
+				}
+				
 			}
 		}
-	}
+	
 	
 	
 	public void printBoard() {
