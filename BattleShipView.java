@@ -15,11 +15,11 @@ public class BattleShipView{
     public static void main(String[] args) {
         coordinateGrid= new JButton[10][10];
         //Create and set up the window.
-        JFrame frame = new JFrame("BattleShip");;
+        JFrame frame = new JFrame("BattleShip");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //create Play Button
-        JButton playButton = new JButton("Play Game");
+        JButton playButton = new JButton("Place Ships Randomly");
         playButton.setFont(new java.awt.Font("Arial", Font.BOLD, 48)); 
 
         // Background Image Panel (Main Menu)
