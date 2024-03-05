@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class BattleShipView{
+public class BattleShipViewServer{
 
     // currently being used for testing
-    private static Game game = new Game();
+    private static GameServer game = new GameServer();
     private static JButton[][] coordinateGrid;
     private static MyPanel dragAndDrop;
 
@@ -217,25 +217,12 @@ public class BattleShipView{
                 gameFrame.setVisible(true);
                 frame.setVisible(false);
 
+
             }
         });
-        Audio audio = new Audio();
+        
+        game.connection.runServer();
 
-        Coordinate incoming_shot=game.getShot();
-                        if(incoming_shot.isHit()){
-                            audio.setFile("explosion.wav");
-                            audio.play();
-                            ImageIcon hitIcon = new ImageIcon("hitship.png");
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].setIcon(hitIcon);;
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].paintImmediately(coordinateGrid[incoming_shot.row][incoming_shot.column].getVisibleRect());
-                        }
-                        else{
-                            audio.setFile("miss.wav");
-                            audio.play();
-                            ImageIcon white = new ImageIcon("white.png");
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].setIcon(white);
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].paintImmediately(coordinateGrid[incoming_shot.row][incoming_shot.column].getVisibleRect());
-                        }  
     }
 
 
