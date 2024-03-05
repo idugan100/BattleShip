@@ -1,7 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Image;
 
@@ -53,10 +56,9 @@ public class BattleShipView{
         buttonPanel.add(destroyer);
         backgroundPanel.add(buttonPanel, BorderLayout.NORTH);
 
-
-        JPanel boardPanel = new JPanel();
-        boardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        backgroundPanel.add(boardPanel, BorderLayout.CENTER);
+        MyPanel dragAndDrop = new MyPanel();
+        
+        backgroundPanel.add(dragAndDrop, BorderLayout.CENTER);
 
         frame.add(backgroundPanel);
         

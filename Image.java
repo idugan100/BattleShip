@@ -10,18 +10,26 @@ import java.io.File;
 import java.io.IOException;
 
 class MyPanel extends JPanel{
-
     ImageIcon image;
     Point imageUpperLeft, prevPoint;
 
-    MyPanel(ImageIcon imageIcon){
-        image = imageIcon;
-        imageUpperLeft = new Point(100,100);
-        prevPoint = imageUpperLeft;
-        ClickListener clickListener = new ClickListener();
-        this.addMouseListener(clickListener);
-        DragListener dragListener = new DragListener();
-        this.addMouseMotionListener(dragListener);
+    MyPanel(){
+        //make an image for each ship and attatch click and drag listenet to reach on
+        try {   
+            File file = new File("./ship2.png");
+            BufferedImage bufferedImage = ImageIO.read(file);
+            ImageIcon imageIcon = new ImageIcon(bufferedImage);
+            image = imageIcon;
+            imageUpperLeft = new Point(400,400);
+            prevPoint = imageUpperLeft;
+            ClickListener clickListener = new ClickListener();
+            this.addMouseListener(clickListener);
+            DragListener dragListener = new DragListener();
+            this.addMouseMotionListener(dragListener);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    
     }
 
     public void paintComponent(Graphics g) {
@@ -45,28 +53,5 @@ class MyPanel extends JPanel{
             prevPoint = currPoint;
             repaint();
         }
-    }
-}
-   class MyFrame extends JFrame {
-        MyFrame(ImageIcon imageIcon){
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setSize(800,800);
-            this.setLocationRelativeTo(null);
-            MyPanel myPanel = new MyPanel(imageIcon);
-            myPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            myPanel.setSize(imageIcon.getIconHeight(), imageIcon.getIconWidth());
-            this.add(myPanel);
-            this.setSize(imageIcon.getIconHeight()*2, imageIcon.getIconWidth()*2);
-            this.setBackground(Color.CYAN);
-            this.setVisible(true);
-        }
-    }
-
-public class Image {
-    public static void main(String[] args) throws IOException {
-    File file = new File("./image.png");
-    BufferedImage bufferedImage = ImageIO.read(file);
-    ImageIcon imageIcon = new ImageIcon(bufferedImage);
-    JFrame jFrame = new MyFrame(imageIcon);
     }
 }
