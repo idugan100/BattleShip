@@ -31,14 +31,55 @@ public class BattleShipView{
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Ships Placement Confirmed");
-                List<Integer> shipCoordinates = placeShips();
-                for (int i = 0; i < shipCoordinates.size(); i++) {
-                    System.out.println(shipCoordinates.get(i));
-                    // pass this to a list to a function
-                }
-            }
-        });
+                        System.out.println("Ships Placement Confirmed");
+                        List<Integer> shipCoordinates = placeShips();
+                        initializeBoardManually(shipCoordinates);                        
+                        game.player.board.printBoard();
+        
+                        // Create game window
+                        JFrame gameFrame = new JFrame("Game Window");
+                        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        gameFrame.setLayout(new BorderLayout()); // Set layout for gameFrame
+        
+                        // Create components for the game window
+                        JPanel gameBackgroundPanel = new JPanel();
+                        gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
+        
+                        // Initialize player and targeting BoardPanel 
+                        JPanel playerBoardPanel = initializeBoardPanel();
+                        JPanel targetingBoardPanel = initializeEnemyBoardPanel();
+        
+                        // Add boards to game background
+                        gameBackgroundPanel.add(targetingBoardPanel);
+                        gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                        gameBackgroundPanel.add(playerBoardPanel);
+        
+        
+                        // Create and add label and exit button
+                        JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
+                        JButton exitButton = new JButton("Exit to Main Menu");
+        
+                        // Add components to gameFrame
+                        gameFrame.add(label, BorderLayout.NORTH);
+                        gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);
+                        gameFrame.add(exitButton, BorderLayout.SOUTH);
+        
+                        // Exit button functionality
+                        exitButton.addActionListener(new ActionListener() {
+                           @Override
+                           public void actionPerformed(ActionEvent e) {
+                            gameFrame.setVisible(false);
+                            frame.setVisible(true); 
+                           } 
+                        });
+        
+                        gameFrame.pack();
+                        gameFrame.setLocationRelativeTo(null); // center game window
+                        gameFrame.setVisible(true);
+                        frame.setVisible(false);
+                    }
+                });
+
 
         // Background Image Panel (Main Menu)
         JPanel backgroundPanel = new JPanel() {
@@ -277,26 +318,50 @@ public class BattleShipView{
         return shipTemp;
     }
     
-    private static JPanel initializeBoardManually (List<Integer> shipCoordinates) {
+    private static void initializeBoardManually (List<Integer> shipCoordinates) {
+    //CARRIER
         int[] carrierStartPoint = new int[]{shipCoordinates.get(0), shipCoordinates.get(1)};
         Coordinate[] carrierList = new Coordinate[5];
-        if(if horizontal){
-            // loop over 5
-            // make new coordinate with same row and incremented col
-            // add coordiante to carrier list
+        if(dragAndDrop.getHorizontal(0)){
+            for(int i=0;i<5;i++){
+                Coordinate c = new Coordinate(carrierStartPoint[0], carrierStartPoint[1]+i);
+                carrierList[i]=c;
+            }
         }
         else{
-            //loop over 5
-            //new coordiante with inc row and same col
-            //add coordiante to carrier list
+            for(int i=0;i<5;i++){
+                Coordinate c = new Coordinate(carrierStartPoint[0]+i, carrierStartPoint[1]);
+                carrierList[i]=c;
+            }
         }
-        Ship Carrier = new Ship(5, null, null)   ;
+        Ship Carrier = new Ship(5, "Carrier", "c");
         Carrier.placeShip(carrierList);
-        game.board.addShip(Carrier)
-        
+        game.player.board.addShip(Carrier);
+    //battleship
         int[] battleshipStartPoint = new int[]{shipCoordinates.get(2), shipCoordinates.get(3)};
+        Coordinate[] battleShipList = new Coordinate[4];
+        if(dragAndDrop.getHorizontal(1)){
+            for(int i=0;i<4;i++){
+                Coordinate c = new Coordinate(battleshipStartPoint[0], battleshipStartPoint[1]+i);
+                battleShipList[i]=c;
+            }
+        }
+        else{
+            for(int i=0;i<4;i++){
+                Coordinate c = new Coordinate(battleshipStartPoint[0]+i, battleshipStartPoint[1]);
+                battleShipList[i]=c;
+
+            }
+        }
+        Ship BattleShip = new Ship(4, "BattleShip", "b");
+        BattleShip.placeShip(battleShipList);
+
+        game.player.board.addShip(BattleShip);
+    //SUBMARINE
         int[] submarineStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
+    //PATROL BOAT
         int[] patrolStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
+    // DESTROYER
         int[] destroyerStartPoint = new int[]{shipCoordinates.get(8), shipCoordinates.get(9)};
     }
 
