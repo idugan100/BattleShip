@@ -170,7 +170,8 @@ public class BattleShipView{
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 JButton cellButton = new JButton();
-                cellButton.setBackground(Color.BLUE);
+                ImageIcon water = new ImageIcon("cover.png");
+                cellButton.setIcon(water);
                 cellButton.setOpaque(true);
                 cellButton.setPreferredSize(new Dimension(40, 40));
                 cellButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
@@ -185,7 +186,8 @@ public class BattleShipView{
                         }
                     }
                     if (hasShip) {
-                        cellButton.setBackground(Color.BLACK);
+                        ImageIcon shippng = new ImageIcon("ship.png");
+                            cellButton.setIcon(shippng);
                         break;
                     }
 
@@ -206,13 +208,15 @@ public class BattleShipView{
                         if (result.isHit()) {
                             audio.setFile("explosion.wav");
                             audio.play();
-                            cellButton.setBackground(Color.RED);
+                            ImageIcon hitIcon = new ImageIcon("hitship.png");
+                            cellButton.setIcon(hitIcon);
                             cellButton.paintImmediately(cellButton.getVisibleRect());
 
                         } else {
                             audio.setFile("miss.wav");
                             audio.play();
-                            cellButton.setBackground(Color.WHITE);
+                            ImageIcon white = new ImageIcon("white.png");
+                            cellButton.setIcon(white);
                             cellButton.paintImmediately(cellButton.getVisibleRect()); 
                         }
                         if(game.hasWon() || game.hasLost()) {
@@ -229,13 +233,15 @@ public class BattleShipView{
                         if(incoming_shot.isHit()){
                             audio.setFile("explosion.wav");
                             audio.play();
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].setBackground(Color.RED);
+                            ImageIcon hitIcon = new ImageIcon("hitship.png");
+                            coordinateGrid[incoming_shot.row][incoming_shot.column].setIcon(hitIcon);;
                             cellButton.paintImmediately(cellButton.getVisibleRect());
                         }
                         else{
                             audio.setFile("miss.wav");
                             audio.play();
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].setBackground(Color.WHITE);
+                            ImageIcon white = new ImageIcon("white.png");
+                            cellButton.setIcon(white);
                             cellButton.paintImmediately(cellButton.getVisibleRect());
                         }  
                         cellButton.removeActionListener(this); 
@@ -261,7 +267,8 @@ public class BattleShipView{
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 JButton cellButton = new JButton();
-                cellButton.setBackground(Color.BLUE);
+                ImageIcon water = new ImageIcon("cover.png");
+                cellButton.setIcon(water);
                 cellButton.setOpaque(true);
                 cellButton.setPreferredSize(new Dimension(40, 40));
                 cellButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
@@ -276,7 +283,8 @@ public class BattleShipView{
                         }
                     }
                     if (hasShip) {
-                        cellButton.setBackground(Color.BLACK);
+                        ImageIcon shippng = new ImageIcon("ship.png");
+                        cellButton.setIcon(shippng);
                         break;
                     }
 
