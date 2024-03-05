@@ -35,6 +35,7 @@ public class BattleShipView{
                 List<Integer> shipCoordinates = placeShips();
                 for (int i = 0; i < shipCoordinates.size(); i++) {
                     System.out.println(shipCoordinates.get(i));
+                    // pass this to a list to a function
                 }
             }
         });
@@ -203,13 +204,59 @@ public class BattleShipView{
             System.out.printf("SHIP %d COL AFTER: %d\n", shipIndex + 1, colStart);
             System.out.printf("AFTER:: Is ship %d horizontal?%b\n", shipIndex + 1, isHorizontal);
             // Adjust row start based on orientation
-            if (rowStart <= 0) {
+
+            if (isHorizontal) {
+                System.out.printf("HORIZONTAL IN IF:%b \n", isHorizontal);
+                if (rowStart > 0 && rowStart < 9) {
+                    rowStart += 1;
+                } else if (rowStart >= 9) {
+                    rowStart = 9;
+                } else if (colStart <= 0){
+                    rowStart = 0;
+                }
+                
+                if (colStart >= 9) {
+                    colStart = 9;
+                }
+
+                if (colStart <= 0) {
+                    colStart = 0;
+                }
+
+            } else {
+                System.out.printf("HORIZONTAL IN ELSE:%b \n", isHorizontal);
+                if (colStart > 0 && colStart < 9) {
+                    System.out.println("IN IF IN ELSE");
+                    colStart += 1;
+                    System.out.printf("COL START IN IF IN ELSE: %d\n", colStart);
+                } else if (colStart >= 9) {
+                    colStart = 9;
+                } else if(rowStart <= 0){
+                    colStart = 0;
+                }
+
+                if (rowStart >= 9) {
+                    rowStart = 9;
+                } 
+                
+                if (rowStart <= 0){
+                    rowStart = 0;
+                }
+            }
+
+/*             if (rowStart <= 0) {
                 rowStart = 0;
             } else if (!isHorizontal) {
                 if (rowStart >= 9) {
+                    colStart = 9;
+                } else {
+                    colStart += 1; // Only adjust row for vertical ships
+                }
+            } else {
+                if (rowStart >= 9) {
                     rowStart = 9;
                 } else {
-                    rowStart += 1; // Only adjust row for vertical ships
+                    colStart += 1; // Only adjust row for vertical ships
                 }
             }
     
@@ -221,7 +268,7 @@ public class BattleShipView{
             } else {
                     colStart += 1; // Always adjust column since it's the primary axis for horizontal ships
             }
-    
+     */
             // Update the temporary list with adjusted values
             shipTemp.set(baseIndex, rowStart);
             shipTemp.set(baseIndex + 1, colStart);
@@ -229,11 +276,14 @@ public class BattleShipView{
     
         return shipTemp;
     }
-        
-
-
-
-
+    
+    private static JPanel initializeBoardManually (List<Integer> shipCoordinates) {
+        int[] carrierStartPoint = new int[]{shipCoordinates.get(0), shipCoordinates.get(1)};
+        int[] battleshipStartPoint = new int[]{shipCoordinates.get(2), shipCoordinates.get(3)};
+        int[] submarineStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
+        int[] patrolStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
+        int[] destroyerStartPoint = new int[]{shipCoordinates.get(8), shipCoordinates.get(9)};
+    }
 
     private static JPanel initializeEnemyBoardPanel() {
         JPanel boardPanel = new JPanel();
