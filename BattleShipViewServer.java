@@ -14,11 +14,13 @@ public class BattleShipViewServer{
     private static GameServer game = new GameServer();
     private static JButton[][] coordinateGrid;
     private static MyPanel dragAndDrop;
+    private static JFrame frame;
 
     public static void main(String[] args) {
         coordinateGrid= new JButton[10][10];
         //Create and set up the window.
-        JFrame frame = new JFrame("BattleShip");
+        frame = new JFrame("BattleShip");
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //create Play Button
@@ -485,9 +487,12 @@ public class BattleShipViewServer{
                         }
                         if(game.hasWon()) {
                             JOptionPane.showMessageDialog(null, "Game Over You Won!");
+                            System.exit(0);
                         }
                         else if(game.hasLost()){
                             JOptionPane.showMessageDialog(null, "Game Over You Lost!");
+                            System.exit(0);
+
                         }
                         try{
                             TimeUnit.MILLISECONDS.sleep(1000);
@@ -513,9 +518,13 @@ public class BattleShipViewServer{
                         }  
                         if(game.hasWon()) {
                             JOptionPane.showMessageDialog(null, "Game Over You Won!");
+                            System.exit(0);
+
                         }
                         else if(game.hasLost()){
                             JOptionPane.showMessageDialog(null, "Game Over You Lost!");
+                            System.exit(0);
+
                         }
                         cellButton.removeActionListener(this); 
 

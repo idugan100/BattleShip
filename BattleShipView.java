@@ -14,11 +14,13 @@ public class BattleShipView{
     private static Game game = new Game();
     private static JButton[][] coordinateGrid;
     private static MyPanel dragAndDrop;
+    private static JFrame frame;
 
     public static void main(String[] args) {
         coordinateGrid= new JButton[10][10];
         //Create and set up the window.
-        JFrame frame = new JFrame("BattleShip");
+        frame = new JFrame("BattleShip");
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //create Play Button
@@ -497,10 +499,13 @@ public class BattleShipView{
                             cellButton.paintImmediately(cellButton.getVisibleRect()); 
                         }
                         if(game.hasWon()) {
-                            JOptionPane.showMessageDialog(null, "Game Over You Won!");
+                            JOptionPane.showMessageDialog(frame, "Game Over You Won!");
+                            System.exit(0);
+
                         }
                         else if(game.hasLost()){
-                            JOptionPane.showMessageDialog(null, "Game Over You Lost!");
+                            JOptionPane.showMessageDialog(frame, "Game Over You Lost!");
+                            System.exit(0);
                         }
                         try{
                             TimeUnit.MILLISECONDS.sleep(1000);
@@ -525,10 +530,14 @@ public class BattleShipView{
                             coordinateGrid[incoming_shot.row][incoming_shot.column].paintImmediately(coordinateGrid[incoming_shot.row][incoming_shot.column].getVisibleRect());
                         }  
                         if(game.hasWon()) {
-                            JOptionPane.showMessageDialog(null, "Game Over You Won!");
+                            JOptionPane.showMessageDialog(frame, "Game Over You Won!");
+                            System.exit(0);
+
                         }
                         else if(game.hasLost()){
-                            JOptionPane.showMessageDialog(null, "Game Over You Lost!");
+                            JOptionPane.showMessageDialog(frame, "Game Over You Lost!");
+                            System.exit(0);
+
                         }
                         cellButton.removeActionListener(this); 
 
