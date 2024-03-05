@@ -56,7 +56,7 @@ public class BattleShipView{
         buttonPanel.add(destroyer);
         backgroundPanel.add(buttonPanel, BorderLayout.NORTH);
 
-        MyPanel dragAndDrop = new MyPanel();
+        JPanel dragAndDrop = new MyPanel();
         
         backgroundPanel.add(dragAndDrop, BorderLayout.CENTER);
 
@@ -64,6 +64,8 @@ public class BattleShipView{
         
         frame.pack();
         frame.setMinimumSize(new Dimension(800, 800));
+        frame.setMaximumSize(new Dimension(800, 800));
+
         frame.setLocationRelativeTo(null); // centers the window
         frame.setVisible(true);
 

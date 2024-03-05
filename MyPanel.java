@@ -34,6 +34,10 @@ class MyPanel extends JPanel{
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        ImageIcon imageIcon = new ImageIcon("bg.png"); // Replace "background.jpg" with your image file path
+        Image bgimage = imageIcon.getImage();
+        g.drawImage(bgimage, 0, 0, getWidth(), getHeight(), this);
+
         image.paintIcon(this, g, (int) imageUpperLeft.getX(), (int)
         imageUpperLeft.getY());
     }
