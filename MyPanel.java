@@ -65,7 +65,7 @@ class MyPanel extends JPanel{
             imageList = new Vector<>();
             imageList.add(new DraggableImage("./ship1.png","./ship1h.png", new Point(100, 100),5)); // Add first image
             imageList.add(new DraggableImage("./ship2.png","./ship2h.png", new Point(150, 100),4)); // Add first image
-            imageList.add(new DraggableImage("./ship4.png","./ship3h.png", new Point(200, 100),3)); // Add first image
+            imageList.add(new DraggableImage("./ship3.png","./ship3h.png", new Point(200, 100),3)); // Add first image
             imageList.add(new DraggableImage("./ship4.png","./ship4h.png", new Point(250, 100),3)); // Add first image
             imageList.add(new DraggableImage("./ship5.png","./ship5h.png", new Point(300, 100),2)); // Add second image
             ClickListener clickListener = new ClickListener();

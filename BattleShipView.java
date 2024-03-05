@@ -279,6 +279,21 @@ public class BattleShipView{
     
     private static JPanel initializeBoardManually (List<Integer> shipCoordinates) {
         int[] carrierStartPoint = new int[]{shipCoordinates.get(0), shipCoordinates.get(1)};
+        Coordinate[] carrierList = new Coordinate[5];
+        if(if horizontal){
+            // loop over 5
+            // make new coordinate with same row and incremented col
+            // add coordiante to carrier list
+        }
+        else{
+            //loop over 5
+            //new coordiante with inc row and same col
+            //add coordiante to carrier list
+        }
+        Ship Carrier = new Ship(5, null, null)   ;
+        Carrier.placeShip(carrierList);
+        game.board.addShip(Carrier)
+        
         int[] battleshipStartPoint = new int[]{shipCoordinates.get(2), shipCoordinates.get(3)};
         int[] submarineStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
         int[] patrolStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
