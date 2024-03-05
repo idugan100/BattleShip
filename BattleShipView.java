@@ -358,11 +358,66 @@ public class BattleShipView{
 
         game.player.board.addShip(BattleShip);
     //SUBMARINE
-        int[] submarineStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
-    //PATROL BOAT
-        int[] patrolStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
-    // DESTROYER
-        int[] destroyerStartPoint = new int[]{shipCoordinates.get(8), shipCoordinates.get(9)};
+        int[] subStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
+        Coordinate[] subShipList = new Coordinate[3];
+        if(dragAndDrop.getHorizontal(2)){
+            for(int i=0;i<3;i++){
+                Coordinate c = new Coordinate(subStartPoint[0], subStartPoint[1]+i);
+                subShipList[i]=c;
+            }
+        }
+        else{
+            for(int i=0;i<3;i++){
+                Coordinate c = new Coordinate(subStartPoint[0]+i, subStartPoint[1]);
+                subShipList[i]=c;
+
+            }
+        }
+        Ship SubShip = new Ship(3, "Submarine", "s");
+        SubShip.placeShip(subShipList);
+
+        game.player.board.addShip(SubShip);
+
+    //DESTROYER
+        int[] destroyerStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
+        Coordinate[] destroyerShipList = new Coordinate[3];
+        if(dragAndDrop.getHorizontal(3)){
+            for(int i=0;i<3;i++){
+                Coordinate c = new Coordinate(destroyerStartPoint[0], destroyerStartPoint[1]+i);
+                destroyerShipList[i]=c;
+            }
+        }
+        else{
+            for(int i=0;i<3;i++){
+                Coordinate c = new Coordinate(destroyerStartPoint[0]+i, destroyerStartPoint[1]);
+                destroyerShipList[i]=c;
+
+            }
+        }
+        Ship DestroyerShip = new Ship(3, "Destroyer", "d");
+        DestroyerShip.placeShip(destroyerShipList);
+
+        game.player.board.addShip(DestroyerShip);
+    // PATROL BOAT
+        int[] patrolStartPoint = new int[]{shipCoordinates.get(8), shipCoordinates.get(9)};
+        Coordinate[] patrolShipList = new Coordinate[2];
+        if(dragAndDrop.getHorizontal(4)){
+            for(int i=0;i<2;i++){
+                Coordinate c = new Coordinate(patrolStartPoint[0], patrolStartPoint[1]+i);
+                patrolShipList[i]=c;
+            }
+        }
+        else{
+            for(int i=0;i<2;i++){
+                Coordinate c = new Coordinate(patrolStartPoint[0]+i, patrolStartPoint[1]);
+                patrolShipList[i]=c;
+
+            }
+        }
+        Ship PatrolBoat = new Ship(2, "Patrol Boat", "p");
+        PatrolBoat.placeShip(patrolShipList);
+
+        game.player.board.addShip(PatrolBoat);
     }
 
     private static JPanel initializeEnemyBoardPanel() {
