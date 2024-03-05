@@ -135,8 +135,8 @@ class MyPanel extends JPanel{
         }
     }
 
-    public List<Double> getShipCoordinates() {
-        List<Double> coords = new ArrayList<>();
+    public List<Integer> getShipCoordinates() {
+        List<Integer> coords = new ArrayList<>();
         for (int i = 0; i < imageList.size(); i++) {
             DraggableImage image = imageList.get(i);
             Point location = image.imageUpperLeft;

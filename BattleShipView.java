@@ -60,7 +60,7 @@ public class BattleShipView{
 
         // Initialize the dragAndDrop panel with a specific size
         dragAndDrop = new MyPanel();
-        dragAndDrop.setPreferredSize(new Dimension(1000, 1000)); // Set preferred size
+        dragAndDrop.setPreferredSize(new Dimension(600, 600)); // Set preferred size
         
         // Create a container panel with GridBagLayout for more control
         JPanel containerPanel = new JPanel(new GridBagLayout());
@@ -180,141 +180,55 @@ public class BattleShipView{
     }
 
 
-    private static List<Integer> shipCoordinates() {
-        List<Integer> shipCoordinates = dragAndDrop.getShipCoordinates();
-        List<Integer> shipTemp = new ArrayList<Integer>(shipCoordinates);
-
-        
-
-        return shipTemp;
-    }
-
-
     // once user confirms they're done with placement this gets called and determines where on the grid the ships will go
     private static List<Integer> placeShips() {
         List<Integer> shipCoordinates = dragAndDrop.getShipCoordinates();
+        System.out.print("SHIP COORD SIZE: ");
+        System.out.println(shipCoordinates.size());
         List<Integer> shipTemp = new ArrayList<Integer>(shipCoordinates);
+    
+        // Process each ship
+        for (int shipIndex = 0; shipIndex < 5; shipIndex++) {
+            int baseIndex = shipIndex * 2; // Each ship has two entries (row, col) in the list
+            boolean isHorizontal = dragAndDrop.getHorizontal(shipIndex);
+    
+            System.out.printf("SHIP %d ROW B4: %d\n", shipIndex + 1, shipCoordinates.get(baseIndex));
+            System.out.printf("SHIP %d COL B4: %d\n", shipIndex + 1, shipCoordinates.get(baseIndex + 1));
+            System.out.printf("Is ship %d horizontal?%b\n", shipIndex + 1, isHorizontal);
+    
+            int rowStart = shipCoordinates.get(baseIndex) / 60;
 
-            int ship1RowStart = (shipCoordinates.get(0)/100);
-            System.out.print("SHIP 1 ROW B4: ");
-            System.out.println(shipCoordinates.get(0));
-            if (ship1RowStart <= 0) {
-                ship1RowStart = 0;
-                shipTemp.set(0, 0);
-            } else {
-                ship1RowStart += 1;
-                shipTemp.set(0, ship1RowStart);
+            int colStart = shipCoordinates.get(baseIndex + 1) / 60;
+            System.out.printf("SHIP %d ROW AFTER: %d\n", shipIndex + 1, rowStart);
+            System.out.printf("SHIP %d COL AFTER: %d\n", shipIndex + 1, colStart);
+            System.out.printf("AFTER:: Is ship %d horizontal?%b\n", shipIndex + 1, isHorizontal);
+            // Adjust row start based on orientation
+            if (rowStart <= 0) {
+                rowStart = 0;
+            } else if (!isHorizontal) {
+                if (rowStart >= 9) {
+                    rowStart = 9;
+                } else {
+                    rowStart += 1; // Only adjust row for vertical ships
+                }
             }
-            
-            int ship1ColStart = (shipCoordinates.get(1)/100);
-            System.out.print("SHIP 1 COL B4: ");
-            System.out.println(shipCoordinates.get(1));
-            if(ship1ColStart <= 0) {
-                ship1ColStart = 0;
-                shipTemp.set(1, 0);
+    
+            // Adjust column start based on orientation
+            if (colStart <= 0) {
+                colStart = 0;
+            } else if (colStart >= 9) {
+                colStart = 9;
             } else {
-                ship1ColStart += 1;
-                shipTemp.set(1, ship1ColStart);
+                    colStart += 1; // Always adjust column since it's the primary axis for horizontal ships
             }
-            //int ship1RowSpan = (shipCoordinates.get(2)/100);
-            //int ship1ColSpan = (shipCoordinates.get(3)/100);
-
-            int ship2RowStart = (shipCoordinates.get(2)/100);
-            System.out.print("SHIP 2 ROW B4: ");
-            System.out.println(shipCoordinates.get(2));
-            if (ship2RowStart <= 0) {
-                ship2RowStart = 0;
-                shipTemp.set(2, 0);
-            } else {
-                ship2RowStart += 1;
-                shipTemp.set(2, ship2RowStart);
-            }
-
-            int ship2ColStart = (shipCoordinates.get(3)/100);
-            System.out.print("SHIP 2 COL B4: ");
-            System.out.println(shipCoordinates.get(3));
-            if (ship2ColStart <= 0) {
-                ship2ColStart = 0;
-                shipTemp.set(3, 0);
-            } else {
-                ship2ColStart += 1;
-                shipTemp.set(3, ship2ColStart);
-            }
-            //int ship2RowSpan = (shipCoordinates.get(6)/100);
-            //int ship2ColSpan = (shipCoordinates.get(7)/100);
-
-            int ship3RowStart = (shipCoordinates.get(4)/100);
-            System.out.print("SHIP 3 ROWB4: ");
-            System.out.println(shipCoordinates.get(4));
-            if (ship3RowStart <= 0) {
-                ship3RowStart = 0;
-                shipTemp.set(4, 0);
-            } else {
-                ship3RowStart += 1;
-                shipTemp.set(4, ship3RowStart);
-            }
-
-            int ship3ColStart = (shipCoordinates.get(5)/100);
-            System.out.print("SHIP 3 COL B4: ");
-            System.out.println(shipCoordinates.get(5));
-            if (ship3ColStart <= 0) {
-                ship3ColStart = 0;
-                shipTemp.set(5, 0);
-            } else {
-                ship3ColStart = (ship3ColStart + 1);
-                shipTemp.set(5, ship3ColStart);
-            }
-            //int ship3RowSpan = (shipCoordinates.get(10)/100);
-            //int ship3ColSpan = (shipCoordinates.get(11)/100);
-
-            System.out.print("SHIP 4 ROW B4: ");
-            System.out.println(shipCoordinates.get(6));
-            int ship4RowStart = (shipCoordinates.get(6)/100);
-            if (ship4RowStart <= 0) {
-                ship4RowStart = 0;
-                shipTemp.set(6, 0);
-            } else {
-                ship4RowStart += 1;
-                shipTemp.set(6, ship4RowStart);
-            }
-            
-            int ship4ColStart = (shipCoordinates.get(7)/100);
-            System.out.print("SHIP 4 COL B4: ");
-            System.out.println(shipCoordinates.get(7));
-            if (ship4ColStart <= 0) {
-                ship4ColStart = 0;
-                shipTemp.set(7, 0);
-            } else {
-                ship4ColStart += 1;
-                shipTemp.set(7, ship4ColStart);
-            }
-            //int ship4RowSpan = (shipCoordinates.get(14)/100);
-            //int ship4ColSpan = (shipCoordinates.get(15)/100);
-
-            int ship5RowStart = (shipCoordinates.get(8)/100);
-            System.out.print("SHIP 5 ROW B4: ");
-            System.out.println(shipCoordinates.get(8));
-            if (ship5RowStart <= 0) {
-                ship5RowStart = 0;
-                shipTemp.set(8, 0);
-            } else {
-                ship5RowStart += 1;
-                shipTemp.set(8, ship5RowStart);
-            }
-            int ship5ColStart = (shipCoordinates.get(9)/100);
-            System.out.print("SHIP 5 COL B4: ");
-            System.out.println(shipCoordinates.get(9));
-            if (ship5ColStart <= 0) {
-                ship5ColStart = 0;
-                shipTemp.set(9, 0);
-            } else {
-                ship5ColStart += 1;
-                shipTemp.set(9, ship5ColStart);
-            }
-            //int ship5RowSpan = (shipCoordinates.get(18)/100);
-            //int ship5ColSpan = (shipCoordinates.get(19)/100);
-            return shipTemp;
+    
+            // Update the temporary list with adjusted values
+            shipTemp.set(baseIndex, rowStart);
+            shipTemp.set(baseIndex + 1, colStart);
         }
+    
+        return shipTemp;
+    }
         
 
 
