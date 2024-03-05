@@ -11,23 +11,41 @@ import java.io.IOException;
 import java.util.Vector;
 
 class DraggableImage {
-    ImageIcon imageIcon;
+    ImageIcon horizImageIcon;
+    ImageIcon vertImageIcon;
     Point imageUpperLeft, prevPoint;
+    Boolean horizontal;
 
-    DraggableImage(String imagePath, Point initialLocation) {
+
+    DraggableImage(String imagePath, String imagePathH, Point initialLocation) {
         try {
             File file = new File(imagePath);
             BufferedImage bufferedImage = ImageIO.read(file);
-            imageIcon = new ImageIcon(bufferedImage);
+            vertImageIcon = new ImageIcon(bufferedImage);
             imageUpperLeft = initialLocation;
             prevPoint = imageUpperLeft;
+            File file2 = new File(imagePathH);
+            BufferedImage bufferedImage2 = ImageIO.read(file2);
+            horizImageIcon = new ImageIcon(bufferedImage2);
+            horizontal = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     Rectangle getBounds() {
         return new Rectangle((int) imageUpperLeft.getX(), (int) imageUpperLeft.getY(),
-                imageIcon.getIconWidth(), imageIcon.getIconHeight());
+                getImageIcon().getIconWidth(), getImageIcon().getIconHeight());
+    }
+
+    void rotate(){
+        horizontal = !horizontal;
+    }
+
+    ImageIcon getImageIcon(){
+        if(horizontal){
+            return horizImageIcon;
+        }
+        return vertImageIcon;
     }
 }
 
@@ -39,11 +57,11 @@ class MyPanel extends JPanel{
 
     MyPanel(){
             imageList = new Vector<>();
-            imageList.add(new DraggableImage("./ship1.png", new Point(100, 100))); // Add first image
-            imageList.add(new DraggableImage("./ship2.png", new Point(150, 100))); // Add first image
-            imageList.add(new DraggableImage("./ship3.png", new Point(200, 100))); // Add first image
-            imageList.add(new DraggableImage("./ship4.png", new Point(250, 100))); // Add first image
-            imageList.add(new DraggableImage("./ship5.png", new Point(300, 100))); // Add second image
+            imageList.add(new DraggableImage("./ship1.png","./ship1h.png", new Point(100, 100))); // Add first image
+            imageList.add(new DraggableImage("./ship2.png","./ship2h.png", new Point(150, 100))); // Add first image
+            imageList.add(new DraggableImage("./ship3.png","./ship3h.png", new Point(200, 100))); // Add first image
+            imageList.add(new DraggableImage("./ship4.png","./ship4h.png", new Point(250, 100))); // Add first image
+            imageList.add(new DraggableImage("./ship5.png","./ship5h.png", new Point(300, 100))); // Add second image
             ClickListener clickListener = new ClickListener();
             this.addMouseListener(clickListener);
             DragListener dragListener = new DragListener();
@@ -51,14 +69,39 @@ class MyPanel extends JPanel{
     }
 
     public void paintComponent(Graphics g) {
-         super.paintComponent(g);
+        super.paintComponent(g);
         ImageIcon backgroundIcon = new ImageIcon("bg.png"); // Replace "bg.png" with your background image file path
         Image bgImage = backgroundIcon.getImage();
         g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
 
         for (DraggableImage image : imageList) {
-            image.imageIcon.paintIcon(this, g, (int) image.imageUpperLeft.getX(), (int) image.imageUpperLeft.getY());
+            image.getImageIcon().paintIcon(this, g, (int) image.imageUpperLeft.getX(), (int) image.imageUpperLeft.getY());
         }
+    }
+
+    public void rotateBattleship(){
+        imageList.get(1).rotate();
+        this.paintComponent(getGraphics());
+    }
+
+    public void rotateCarrier(){
+        imageList.get(0).rotate();
+        this.paintComponent(getGraphics());
+    }
+
+    public void rotateSubmarine(){
+        imageList.get(2).rotate();
+        this.paintComponent(getGraphics());
+    }
+
+    public void rotateDestroyer(){
+        imageList.get(3).rotate();
+        this.paintComponent(getGraphics());
+    }
+
+    public void rotatePatrol(){
+        imageList.get(4).rotate();
+        this.paintComponent(getGraphics());
     }
 
     private class ClickListener extends MouseAdapter{
@@ -86,4 +129,5 @@ class MyPanel extends JPanel{
             }
         }
     }
+
 

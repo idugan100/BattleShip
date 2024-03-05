@@ -54,12 +54,38 @@ public class BattleShipView{
         backgroundPanel.setLayout(new BorderLayout()); // Set the layout of the backgroundPanel to BorderLayout
         backgroundPanel.add(placementButtonPanel, BorderLayout.SOUTH);
 
+        MyPanel dragAndDrop = new MyPanel();
 
         JButton battleship = new JButton("Rotate Battleship");
+        battleship.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dragAndDrop.rotateBattleship();
+            }});
         JButton submarine = new JButton("Rotate Submarine");
+        submarine.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dragAndDrop.rotateSubmarine();
+            }});
         JButton patrol = new JButton("Rotate Patrol Boat");
+        patrol.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dragAndDrop.rotatePatrol();
+            }});
         JButton carrier = new JButton("Rotate Carrier");
+        carrier.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dragAndDrop.rotateCarrier();
+            }});
         JButton destroyer = new JButton("Rotate Destroyer");
+        destroyer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dragAndDrop.rotateDestroyer();
+            }});
 
 
         JPanel buttonPanel = new JPanel();
@@ -70,7 +96,6 @@ public class BattleShipView{
         buttonPanel.add(destroyer);
         backgroundPanel.add(buttonPanel, BorderLayout.NORTH);
 
-        JPanel dragAndDrop = new MyPanel();
         
         backgroundPanel.add(dragAndDrop, BorderLayout.CENTER);
         frame.add(backgroundPanel);
