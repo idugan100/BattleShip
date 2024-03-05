@@ -483,8 +483,11 @@ public class BattleShipViewServer{
                             cellButton.setIcon(white);
                             cellButton.paintImmediately(cellButton.getVisibleRect()); 
                         }
-                        if(game.hasWon() || game.hasLost()) {
-                            JOptionPane.showMessageDialog(null, "Game Over!");
+                        if(game.hasWon()) {
+                            JOptionPane.showMessageDialog(null, "Game Over You Won!");
+                        }
+                        else if(game.hasLost()){
+                            JOptionPane.showMessageDialog(null, "Game Over You Lost!");
                         }
                         try{
                             TimeUnit.MILLISECONDS.sleep(1000);
@@ -508,6 +511,12 @@ public class BattleShipViewServer{
                             coordinateGrid[incoming_shot.row][incoming_shot.column].setIcon(white);
                             coordinateGrid[incoming_shot.row][incoming_shot.column].paintImmediately(coordinateGrid[incoming_shot.row][incoming_shot.column].getVisibleRect());
                         }  
+                        if(game.hasWon()) {
+                            JOptionPane.showMessageDialog(null, "Game Over You Won!");
+                        }
+                        else if(game.hasLost()){
+                            JOptionPane.showMessageDialog(null, "Game Over You Lost!");
+                        }
                         cellButton.removeActionListener(this); 
 
 
