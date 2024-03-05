@@ -22,8 +22,18 @@ public class BattleShipView{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //create Play Button
-        JButton playButton = new JButton("Place Ships Randomly");
-        playButton.setFont(new java.awt.Font("Arial", Font.BOLD, 48)); 
+        JButton randButton = new JButton("Place Ships Randomly");
+        randButton.setFont(new java.awt.Font("Arial", Font.BOLD, 48)); 
+
+        JButton confirmButton = new JButton("Confirm Ship Placement");
+        confirmButton.setFont(new java.awt.Font("Arial", Font.BOLD, 48));
+        
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Ships Placement Confirmed");
+            }
+        });
 
         // Background Image Panel (Main Menu)
         JPanel backgroundPanel = new JPanel() {
@@ -37,15 +47,19 @@ public class BattleShipView{
             }
         };
 
+        JPanel placementButtonPanel = new JPanel();
+        placementButtonPanel.add(randButton);
+        placementButtonPanel.add(confirmButton);
+
         backgroundPanel.setLayout(new BorderLayout()); // Set the layout of the backgroundPanel to BorderLayout
-        backgroundPanel.add(playButton, BorderLayout.SOUTH);
+        backgroundPanel.add(placementButtonPanel, BorderLayout.SOUTH);
 
 
-        JButton battleship = new JButton("batttle ship");
-        JButton submarine = new JButton("sub ship");
-        JButton patrol = new JButton("patrol ship");
-        JButton carrier = new JButton("carrier ship");
-        JButton destroyer = new JButton("destroyer ship");
+        JButton battleship = new JButton("Rotate Battleship");
+        JButton submarine = new JButton("Rotate Submarine");
+        JButton patrol = new JButton("Rotate Patrol Boat");
+        JButton carrier = new JButton("Rotate Carrier");
+        JButton destroyer = new JButton("Rotate Destroyer");
 
 
         JPanel buttonPanel = new JPanel();
@@ -59,18 +73,17 @@ public class BattleShipView{
         JPanel dragAndDrop = new MyPanel();
         
         backgroundPanel.add(dragAndDrop, BorderLayout.CENTER);
-
         frame.add(backgroundPanel);
         
         frame.pack();
         frame.setMinimumSize(new Dimension(800, 800));
         frame.setMaximumSize(new Dimension(800, 800));
-
         frame.setLocationRelativeTo(null); // centers the window
+        frame.setResizable(false);
         frame.setVisible(true);
 
         // Action listener for play button. Takes from main menu to game screen.
-        playButton.addActionListener(new ActionListener() {
+        randButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 game.player.board.placeShipsRandomly();
