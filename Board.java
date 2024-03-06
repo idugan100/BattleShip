@@ -20,10 +20,8 @@ public class Board {
 				if(shipList.get(i).isShipOnCoordinate(ship.getCoordinates()[j])){
 					return false;
 				}
-
 			}
 		}
-
 		shipList.add(ship);
 		return true;
 	}
@@ -157,5 +155,9 @@ public class Board {
 			}
 		}
 		return total;
+	}
+
+	public void resetBoard () {
+		shipList.clear();
 	}
 }

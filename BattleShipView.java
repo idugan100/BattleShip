@@ -32,10 +32,19 @@ public class BattleShipView{
             @Override
             public void actionPerformed(ActionEvent e) {
                         System.out.println("Ships Placement Confirmed");
-                        List<Integer> shipCoordinates = placeShips();
-                        initializeBoardManually(shipCoordinates);                        
+                        List<Integer> shipCoordinates =placeShips();
+                        
+                        // int count = 1;
+                        // for (int coord : shipCoordinates) {
+                        //     System.out.printf("%d: %d \n",count, coord);
+                        //     count++;
+                        // }
+
+                        boolean check = initializeBoardManually(shipCoordinates);
+                       if(check){
+                        System.out.println("IN IF");
                         game.player.board.printBoard();
-        
+            
                         // Create game window
                         JFrame gameFrame = new JFrame("Game Window");
                         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,6 +86,12 @@ public class BattleShipView{
                         gameFrame.setLocationRelativeTo(null); // center game window
                         gameFrame.setVisible(true);
                         frame.setVisible(false);
+                    }
+                    else{
+                        //remove ships from board
+                        System.out.println("IN ELSE");
+                        game.player.board.resetBoard();
+                    }
                     }
                 });
 
@@ -242,8 +257,6 @@ public class BattleShipView{
     // once user confirms they're done with placement this gets called and determines where on the grid the ships will go
     private static List<Integer> placeShips() {
         List<Integer> shipCoordinates = dragAndDrop.getShipCoordinates();
-        System.out.print("SHIP COORD SIZE: ");
-        System.out.println(shipCoordinates.size());
         List<Integer> shipTemp = new ArrayList<Integer>(shipCoordinates);
     
         // Process each ship
@@ -251,20 +264,12 @@ public class BattleShipView{
             int baseIndex = shipIndex * 2; // Each ship has two entries (row, col) in the list
             boolean isHorizontal = dragAndDrop.getHorizontal(shipIndex);
     
-            System.out.printf("SHIP %d ROW B4: %d\n", shipIndex + 1, shipCoordinates.get(baseIndex));
-            System.out.printf("SHIP %d COL B4: %d\n", shipIndex + 1, shipCoordinates.get(baseIndex + 1));
-            System.out.printf("Is ship %d horizontal?%b\n", shipIndex + 1, isHorizontal);
-    
             int rowStart = shipCoordinates.get(baseIndex) / 60;
 
             int colStart = shipCoordinates.get(baseIndex + 1) / 60;
-            System.out.printf("SHIP %d ROW AFTER: %d\n", shipIndex + 1, rowStart);
-            System.out.printf("SHIP %d COL AFTER: %d\n", shipIndex + 1, colStart);
-            System.out.printf("AFTER:: Is ship %d horizontal?%b\n", shipIndex + 1, isHorizontal);
             // Adjust row start based on orientation
 
             if (isHorizontal) {
-                System.out.printf("HORIZONTAL IN IF:%b \n", isHorizontal);
                 if (rowStart > 0 && rowStart < 9) {
                     rowStart += 1;
                 } else if (rowStart >= 9) {
@@ -282,11 +287,8 @@ public class BattleShipView{
                 }
 
             } else {
-                System.out.printf("HORIZONTAL IN ELSE:%b \n", isHorizontal);
                 if (colStart > 0 && colStart < 9) {
-                    System.out.println("IN IF IN ELSE");
                     colStart += 1;
-                    System.out.printf("COL START IN IF IN ELSE: %d\n", colStart);
                 } else if (colStart >= 9) {
                     colStart = 9;
                 } else if(rowStart <= 0){
@@ -301,32 +303,6 @@ public class BattleShipView{
                     rowStart = 0;
                 }
             }
-
-/*             if (rowStart <= 0) {
-                rowStart = 0;
-            } else if (!isHorizontal) {
-                if (rowStart >= 9) {
-                    colStart = 9;
-                } else {
-                    colStart += 1; // Only adjust row for vertical ships
-                }
-            } else {
-                if (rowStart >= 9) {
-                    rowStart = 9;
-                } else {
-                    colStart += 1; // Only adjust row for vertical ships
-                }
-            }
-    
-            // Adjust column start based on orientation
-            if (colStart <= 0) {
-                colStart = 0;
-            } else if (colStart >= 9) {
-                colStart = 9;
-            } else {
-                    colStart += 1; // Always adjust column since it's the primary axis for horizontal ships
-            }
-     */
             // Update the temporary list with adjusted values
             shipTemp.set(baseIndex, rowStart);
             shipTemp.set(baseIndex + 1, colStart);
@@ -335,7 +311,7 @@ public class BattleShipView{
         return shipTemp;
     }
     
-    private static void initializeBoardManually (List<Integer> shipCoordinates) {
+    private static boolean initializeBoardManually (List<Integer> shipCoordinates) {
     //CARRIER
         int[] carrierStartPoint = new int[]{shipCoordinates.get(0), shipCoordinates.get(1)};
         Coordinate[] carrierList = new Coordinate[5];
@@ -353,8 +329,13 @@ public class BattleShipView{
         }
         Ship Carrier = new Ship(5, "Carrier", "c");
         Carrier.placeShip(carrierList);
-        game.player.board.addShip(Carrier);
-    //battleship
+
+        if(!game.player.board.addShip(Carrier)) {
+            System.out.println("CARRIER NOT ADDED, COLLISION DETECTED");
+            return false;
+        }
+
+    // BATTLESHIP
         int[] battleshipStartPoint = new int[]{shipCoordinates.get(2), shipCoordinates.get(3)};
         Coordinate[] battleShipList = new Coordinate[4];
         if(dragAndDrop.getHorizontal(1)){
@@ -373,7 +354,11 @@ public class BattleShipView{
         Ship BattleShip = new Ship(4, "BattleShip", "b");
         BattleShip.placeShip(battleShipList);
 
-        game.player.board.addShip(BattleShip);
+        if(!game.player.board.addShip(BattleShip)) {
+            System.out.println("BATTLESHIP NOT ADDED, COLLISION DETECTED");
+            return false;
+        }
+
     //SUBMARINE
         int[] subStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
         Coordinate[] subShipList = new Coordinate[3];
@@ -393,7 +378,10 @@ public class BattleShipView{
         Ship SubShip = new Ship(3, "Submarine", "s");
         SubShip.placeShip(subShipList);
 
-        game.player.board.addShip(SubShip);
+        if(!game.player.board.addShip(SubShip)) {
+            System.out.println("SUBMARINE NOT ADDED, COLLISION DETECTED");
+            return false;
+        }
 
     //DESTROYER
         int[] destroyerStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
@@ -414,7 +402,10 @@ public class BattleShipView{
         Ship DestroyerShip = new Ship(3, "Destroyer", "d");
         DestroyerShip.placeShip(destroyerShipList);
 
-        game.player.board.addShip(DestroyerShip);
+        if(!game.player.board.addShip(DestroyerShip)) {
+            System.out.println("DESTROYER NOT ADDED, COLLISION DETECTED");
+            return false;
+        }
     // PATROL BOAT
         int[] patrolStartPoint = new int[]{shipCoordinates.get(8), shipCoordinates.get(9)};
         Coordinate[] patrolShipList = new Coordinate[2];
@@ -434,7 +425,14 @@ public class BattleShipView{
         Ship PatrolBoat = new Ship(2, "Patrol Boat", "p");
         PatrolBoat.placeShip(patrolShipList);
 
-        game.player.board.addShip(PatrolBoat);
+        if(!game.player.board.addShip(PatrolBoat)) {
+            System.out.println("PATROL BOAT NOT ADDED, COLLISION DETECTED");
+            return false;
+        }
+
+        
+        return true;
+
     }
 
     private static JPanel initializeEnemyBoardPanel() {
