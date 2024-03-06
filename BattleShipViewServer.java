@@ -35,50 +35,56 @@ public class BattleShipViewServer{
             public void actionPerformed(ActionEvent e) {
                         System.out.println("Ships Placement Confirmed");
                         List<Integer> shipCoordinates = placeShips();
-                        initializeBoardManually(shipCoordinates);                        
-                        game.player.board.printBoard();
-        
-                        // Create game window
-                        JFrame gameFrame = new JFrame("Game Window");
-                        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        gameFrame.setLayout(new BorderLayout()); // Set layout for gameFrame
-        
-                        // Create components for the game window
-                        JPanel gameBackgroundPanel = new JPanel();
-                        gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
-        
-                        // Initialize player and targeting BoardPanel 
-                        JPanel playerBoardPanel = initializeBoardPanel();
-                        JPanel targetingBoardPanel = initializeEnemyBoardPanel();
-        
-                        // Add boards to game background
-                        gameBackgroundPanel.add(targetingBoardPanel);
-                        gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-                        gameBackgroundPanel.add(playerBoardPanel);
-        
-        
-                        // Create and add label and exit button
-                        JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
-                        JButton exitButton = new JButton("Exit to Main Menu");
-        
-                        // Add components to gameFrame
-                        gameFrame.add(label, BorderLayout.NORTH);
-                        gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);
-                        gameFrame.add(exitButton, BorderLayout.SOUTH);
-        
-                        // Exit button functionality
-                        exitButton.addActionListener(new ActionListener() {
-                           @Override
-                           public void actionPerformed(ActionEvent e) {
-                            gameFrame.setVisible(false);
-                            frame.setVisible(true); 
-                           } 
-                        });
-        
-                        gameFrame.pack();
-                        gameFrame.setLocationRelativeTo(null); // center game window
-                        gameFrame.setVisible(true);
-                        frame.setVisible(false);
+                        boolean check = initializeBoardManually(shipCoordinates);  
+                        
+                        if(check){
+                            game.player.board.printBoard();
+            
+                            // Create game window
+                            JFrame gameFrame = new JFrame("Game Window");
+                            gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            gameFrame.setLayout(new BorderLayout()); // Set layout for gameFrame
+            
+                            // Create components for the game window
+                            JPanel gameBackgroundPanel = new JPanel();
+                            gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
+            
+                            // Initialize player and targeting BoardPanel 
+                            JPanel playerBoardPanel = initializeBoardPanel();
+                            JPanel targetingBoardPanel = initializeEnemyBoardPanel();
+            
+                            // Add boards to game background
+                            gameBackgroundPanel.add(targetingBoardPanel);
+                            gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                            gameBackgroundPanel.add(playerBoardPanel);
+            
+            
+                            // Create and add label and exit button
+                            JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
+                            JButton exitButton = new JButton("Exit to Main Menu");
+            
+                            // Add components to gameFrame
+                            gameFrame.add(label, BorderLayout.NORTH);
+                            gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);
+                            gameFrame.add(exitButton, BorderLayout.SOUTH);
+            
+                            // Exit button functionality
+                            exitButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                gameFrame.setVisible(false);
+                                frame.setVisible(true); 
+                            } 
+                            });
+            
+                            gameFrame.pack();
+                            gameFrame.setLocationRelativeTo(null); // center game window
+                            gameFrame.setVisible(true);
+                            frame.setVisible(false);
+                        }
+                        else{
+                            game.player.board.resetBoard();
+                        }
                     }
                 });
 
@@ -231,29 +237,21 @@ public class BattleShipViewServer{
     // once user confirms they're done with placement this gets called and determines where on the grid the ships will go
     private static List<Integer> placeShips() {
         List<Integer> shipCoordinates = dragAndDrop.getShipCoordinates();
-        System.out.print("SHIP COORD SIZE: ");
-        System.out.println(shipCoordinates.size());
         List<Integer> shipTemp = new ArrayList<Integer>(shipCoordinates);
     
         // Process each ship
         for (int shipIndex = 0; shipIndex < 5; shipIndex++) {
             int baseIndex = shipIndex * 2; // Each ship has two entries (row, col) in the list
             boolean isHorizontal = dragAndDrop.getHorizontal(shipIndex);
-    
-            System.out.printf("SHIP %d ROW B4: %d\n", shipIndex + 1, shipCoordinates.get(baseIndex));
-            System.out.printf("SHIP %d COL B4: %d\n", shipIndex + 1, shipCoordinates.get(baseIndex + 1));
-            System.out.printf("Is ship %d horizontal?%b\n", shipIndex + 1, isHorizontal);
+
     
             int rowStart = shipCoordinates.get(baseIndex) / 60;
 
             int colStart = shipCoordinates.get(baseIndex + 1) / 60;
-            System.out.printf("SHIP %d ROW AFTER: %d\n", shipIndex + 1, rowStart);
-            System.out.printf("SHIP %d COL AFTER: %d\n", shipIndex + 1, colStart);
-            System.out.printf("AFTER:: Is ship %d horizontal?%b\n", shipIndex + 1, isHorizontal);
+
             // Adjust row start based on orientation
 
             if (isHorizontal) {
-                System.out.printf("HORIZONTAL IN IF:%b \n", isHorizontal);
                 if (rowStart > 0 && rowStart < 9) {
                     rowStart += 1;
                 } else if (rowStart >= 9) {
@@ -271,11 +269,8 @@ public class BattleShipViewServer{
                 }
 
             } else {
-                System.out.printf("HORIZONTAL IN ELSE:%b \n", isHorizontal);
                 if (colStart > 0 && colStart < 9) {
-                    System.out.println("IN IF IN ELSE");
                     colStart += 1;
-                    System.out.printf("COL START IN IF IN ELSE: %d\n", colStart);
                 } else if (colStart >= 9) {
                     colStart = 9;
                 } else if(rowStart <= 0){
@@ -291,31 +286,6 @@ public class BattleShipViewServer{
                 }
             }
 
-/*             if (rowStart <= 0) {
-                rowStart = 0;
-            } else if (!isHorizontal) {
-                if (rowStart >= 9) {
-                    colStart = 9;
-                } else {
-                    colStart += 1; // Only adjust row for vertical ships
-                }
-            } else {
-                if (rowStart >= 9) {
-                    rowStart = 9;
-                } else {
-                    colStart += 1; // Only adjust row for vertical ships
-                }
-            }
-    
-            // Adjust column start based on orientation
-            if (colStart <= 0) {
-                colStart = 0;
-            } else if (colStart >= 9) {
-                colStart = 9;
-            } else {
-                    colStart += 1; // Always adjust column since it's the primary axis for horizontal ships
-            }
-     */
             // Update the temporary list with adjusted values
             shipTemp.set(baseIndex, rowStart);
             shipTemp.set(baseIndex + 1, colStart);
@@ -324,7 +294,7 @@ public class BattleShipViewServer{
         return shipTemp;
     }
     
-    private static void initializeBoardManually (List<Integer> shipCoordinates) {
+    private static boolean initializeBoardManually (List<Integer> shipCoordinates) {
     //CARRIER
         int[] carrierStartPoint = new int[]{shipCoordinates.get(0), shipCoordinates.get(1)};
         Coordinate[] carrierList = new Coordinate[5];
@@ -342,7 +312,9 @@ public class BattleShipViewServer{
         }
         Ship Carrier = new Ship(5, "Carrier", "c");
         Carrier.placeShip(carrierList);
-        game.player.board.addShip(Carrier);
+        if(!game.player.board.addShip(Carrier)){
+            return false;
+        }
     //battleship
         int[] battleshipStartPoint = new int[]{shipCoordinates.get(2), shipCoordinates.get(3)};
         Coordinate[] battleShipList = new Coordinate[4];
@@ -361,8 +333,10 @@ public class BattleShipViewServer{
         }
         Ship BattleShip = new Ship(4, "BattleShip", "b");
         BattleShip.placeShip(battleShipList);
-
-        game.player.board.addShip(BattleShip);
+        
+        if(!game.player.board.addShip(BattleShip)){
+            return false;
+        }
     //SUBMARINE
         int[] subStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
         Coordinate[] subShipList = new Coordinate[3];
@@ -382,7 +356,10 @@ public class BattleShipViewServer{
         Ship SubShip = new Ship(3, "Submarine", "s");
         SubShip.placeShip(subShipList);
 
-        game.player.board.addShip(SubShip);
+        if(!game.player.board.addShip(SubShip)){
+            return false;
+        }
+        
 
     //DESTROYER
         int[] destroyerStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
@@ -403,7 +380,9 @@ public class BattleShipViewServer{
         Ship DestroyerShip = new Ship(3, "Destroyer", "d");
         DestroyerShip.placeShip(destroyerShipList);
 
-        game.player.board.addShip(DestroyerShip);
+        if(!game.player.board.addShip(DestroyerShip)){
+            return false;
+        }
     // PATROL BOAT
         int[] patrolStartPoint = new int[]{shipCoordinates.get(8), shipCoordinates.get(9)};
         Coordinate[] patrolShipList = new Coordinate[2];
@@ -423,7 +402,10 @@ public class BattleShipViewServer{
         Ship PatrolBoat = new Ship(2, "Patrol Boat", "p");
         PatrolBoat.placeShip(patrolShipList);
 
-        game.player.board.addShip(PatrolBoat);
+        if(!game.player.board.addShip(PatrolBoat)){
+            return false;
+        }
+        return true;
     }
 
     private static JPanel initializeEnemyBoardPanel() {
