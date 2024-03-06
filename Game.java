@@ -5,6 +5,7 @@ public class Game{
     boolean isTurn;
     boolean isOver;
     Client connection;
+    String enemySunkList;
 
     Game(){
         player = new Player();
@@ -19,6 +20,7 @@ public class Game{
         catch(Exception e){
 
         }
+        enemySunkList = "";
 
     }
 
@@ -41,6 +43,13 @@ public class Game{
             c.missCoordinate();
         }
         player.shoot(c);
+        try {
+            enemySunkList =(String) connection.input.readObject();
+            System.out.print(enemySunkList);
+ 
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
         return c;
     }
 
@@ -71,6 +80,7 @@ public class Game{
             connection.sendData("miss");
 
         }
+        connection.sendData("Enemy Ships Sunk: " + player.board.getSunkList());
         return c;
     }
 

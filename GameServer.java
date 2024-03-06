@@ -5,12 +5,14 @@ public class GameServer{
     boolean isTurn;
     boolean isOver;
     Server connection;
+    String enemySunkList;
 
     GameServer(){
         player = new Player();
         isTurn=false;//will need to be swapped for server vs client
         isOver=false;
         connection = new Server();
+        enemySunkList = "";
 
     }
 
@@ -20,7 +22,6 @@ public class GameServer{
             connection.sendData(Integer.toString(c.row));
             connection.sendData(Integer.toString(c.column));
             result= (String) connection.input.readObject();
-
         } catch (Exception e) {
             System.out.println("error in get shot networking");
         }
@@ -33,6 +34,14 @@ public class GameServer{
             c.missCoordinate();
         }
         player.shoot(c);
+        try {
+            enemySunkList =(String) connection.input.readObject();
+            System.out.print(enemySunkList);
+ 
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+
         return c;
     }
 
@@ -63,6 +72,7 @@ public class GameServer{
             connection.sendData("miss");
 
         }
+        connection.sendData("Enemy Ships Sunk: " + player.board.getSunkList());
         return c;
     }
 
