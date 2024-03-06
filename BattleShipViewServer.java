@@ -18,6 +18,7 @@ public class BattleShipViewServer{
     private static JFrame frame;
     private static JLabel enemyShipsSunk;
     private static JLabel playerShipsSunk;
+    private static JPanel gameBackgroundPanel;
 
     public static void main(String[] args) {
         coordinateGrid= new JButton[10][10];
@@ -49,7 +50,7 @@ public class BattleShipViewServer{
                             gameFrame.setLayout(new BorderLayout()); // Set layout for gameFrame
             
                             // Create components for the game window
-                            JPanel gameBackgroundPanel = new JPanel();
+                             gameBackgroundPanel = new JPanel();
                             gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
             
                             JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -58,7 +59,9 @@ public class BattleShipViewServer{
                             JPanel playerBoardPanel = initializeBoardPanel();
                             JPanel targetingBoardPanel = initializeEnemyBoardPanel();
                             JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                            enemyShipsSunk = new JLabel("Sunk List: ",SwingConstants.RIGHT);
+                            enemyShipsSunk = new JLabel("Enemy Ships Sunk: ");
+                            enemyShipsSunk.setPreferredSize(new Dimension(390, 25)); // Set preferred size to see background color
+
                             esunk.add(enemyShipsSunk);
             
             
@@ -190,7 +193,7 @@ public class BattleShipViewServer{
                 gameFrame.setLayout(new BorderLayout()); // Set layout for gameFrame
 
                 // Create components for the game window
-                JPanel gameBackgroundPanel = new JPanel();
+                gameBackgroundPanel = new JPanel();
                 gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
 
                // Initialize player and targeting BoardPanel 
@@ -200,7 +203,8 @@ public class BattleShipViewServer{
                JPanel playerBoardPanel = initializeBoardPanel();
                JPanel targetingBoardPanel = initializeEnemyBoardPanel();
                JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-               enemyShipsSunk = new JLabel("Sunk List: ",SwingConstants.RIGHT);
+               enemyShipsSunk = new JLabel("Enemy Ships Sunk: ");
+               enemyShipsSunk.setPreferredSize(new Dimension(390, 25)); // Set preferred size to see background color
                esunk.add(enemyShipsSunk);
 
 
@@ -446,6 +450,10 @@ public class BattleShipViewServer{
                             cellButton.setIcon(white);
                             cellButton.paintImmediately(cellButton.getVisibleRect()); 
                         }
+                        enemyShipsSunk.setText(game.enemySunkList);
+                        enemyShipsSunk.paintImmediately(gameBackgroundPanel.getVisibleRect());
+
+
                         if(game.hasWon()) {
                             JOptionPane.showMessageDialog(null, "Game Over You Won!");
                             System.exit(0);
@@ -477,6 +485,8 @@ public class BattleShipViewServer{
                             coordinateGrid[incoming_shot.row][incoming_shot.column].setIcon(white);
                             coordinateGrid[incoming_shot.row][incoming_shot.column].paintImmediately(coordinateGrid[incoming_shot.row][incoming_shot.column].getVisibleRect());
                         }  
+                        playerShipsSunk.setText("Your Ships Sunk: " + game.player.board.getSunkList());
+
                         if(game.hasWon()) {
                             JOptionPane.showMessageDialog(null, "Game Over You Won!");
                             System.exit(0);
@@ -487,7 +497,6 @@ public class BattleShipViewServer{
                             System.exit(0);
 
                         }
-                        playerShipsSunk.setText("Sunk: " + game.player.board.getSunkList());
                         cellButton.removeActionListener(this); 
 
 
