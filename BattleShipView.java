@@ -288,13 +288,15 @@ public class BattleShipView{
         Coordinate[] carrierList = new Coordinate[5];
         if(dragAndDrop.getHorizontal(0)){
             for(int i=0;i<5;i++){
-                Coordinate c = new Coordinate(carrierStartPoint[0], carrierStartPoint[1]+i);
+                ImageIcon carrierIndexImage = new ImageIcon("P_ship1h_" + i + ".png");
+                Coordinate c = new Coordinate(carrierStartPoint[0], carrierStartPoint[1]+i, carrierIndexImage);
                 carrierList[i]=c;
             }
         }
         else{
             for(int i=0;i<5;i++){
-                Coordinate c = new Coordinate(carrierStartPoint[0]+i, carrierStartPoint[1]);
+                ImageIcon carrierIndexImage = new ImageIcon("P_ship1_" + i + ".png");
+                Coordinate c = new Coordinate(carrierStartPoint[0]+i, carrierStartPoint[1], carrierIndexImage);
                 carrierList[i]=c;
             }
         }
@@ -311,13 +313,15 @@ public class BattleShipView{
         Coordinate[] battleShipList = new Coordinate[4];
         if(dragAndDrop.getHorizontal(1)){
             for(int i=0;i<4;i++){
-                Coordinate c = new Coordinate(battleshipStartPoint[0], battleshipStartPoint[1]+i);
+                ImageIcon battleshipIndexImage = new ImageIcon("P_ship2h_" + i + ".png");
+                Coordinate c = new Coordinate(battleshipStartPoint[0], battleshipStartPoint[1]+i, battleshipIndexImage);
                 battleShipList[i]=c;
             }
         }
         else{
             for(int i=0;i<4;i++){
-                Coordinate c = new Coordinate(battleshipStartPoint[0]+i, battleshipStartPoint[1]);
+                ImageIcon battleshipIndexImage = new ImageIcon("P_ship2_" + i + ".png");
+                Coordinate c = new Coordinate(battleshipStartPoint[0]+i, battleshipStartPoint[1], battleshipIndexImage);
                 battleShipList[i]=c;
 
             }
@@ -335,13 +339,15 @@ public class BattleShipView{
         Coordinate[] subShipList = new Coordinate[3];
         if(dragAndDrop.getHorizontal(2)){
             for(int i=0;i<3;i++){
-                Coordinate c = new Coordinate(subStartPoint[0], subStartPoint[1]+i);
+                ImageIcon subIndexImage = new ImageIcon("P_ship3h_" + i + ".png");
+                Coordinate c = new Coordinate(subStartPoint[0], subStartPoint[1]+i, subIndexImage);
                 subShipList[i]=c;
             }
         }
         else{
             for(int i=0;i<3;i++){
-                Coordinate c = new Coordinate(subStartPoint[0]+i, subStartPoint[1]);
+                ImageIcon subIndexImage = new ImageIcon("P_ship3_" + i + ".png");
+                Coordinate c = new Coordinate(subStartPoint[0]+i, subStartPoint[1], subIndexImage);
                 subShipList[i]=c;
 
             }
@@ -359,13 +365,15 @@ public class BattleShipView{
         Coordinate[] destroyerShipList = new Coordinate[3];
         if(dragAndDrop.getHorizontal(3)){
             for(int i=0;i<3;i++){
-                Coordinate c = new Coordinate(destroyerStartPoint[0], destroyerStartPoint[1]+i);
+                ImageIcon destroyerIndexImage = new ImageIcon("P_ship4h_" + i + ".png");
+                Coordinate c = new Coordinate(destroyerStartPoint[0], destroyerStartPoint[1]+i, destroyerIndexImage);
                 destroyerShipList[i]=c;
             }
         }
         else{
             for(int i=0;i<3;i++){
-                Coordinate c = new Coordinate(destroyerStartPoint[0]+i, destroyerStartPoint[1]);
+                ImageIcon destroyerIndexImage = new ImageIcon("P_ship4_" + i + ".png");
+                Coordinate c = new Coordinate(destroyerStartPoint[0]+i, destroyerStartPoint[1], destroyerIndexImage);
                 destroyerShipList[i]=c;
 
             }
@@ -382,13 +390,15 @@ public class BattleShipView{
         Coordinate[] patrolShipList = new Coordinate[2];
         if(dragAndDrop.getHorizontal(4)){
             for(int i=0;i<2;i++){
-                Coordinate c = new Coordinate(patrolStartPoint[0], patrolStartPoint[1]+i);
+                ImageIcon patrolBoatIndexImage = new ImageIcon("P_ship5h_" + i + ".png");
+                Coordinate c = new Coordinate(patrolStartPoint[0], patrolStartPoint[1]+i, patrolBoatIndexImage);
                 patrolShipList[i]=c;
             }
         }
         else{
             for(int i=0;i<2;i++){
-                Coordinate c = new Coordinate(patrolStartPoint[0]+i, patrolStartPoint[1]);
+                ImageIcon patrolBoatIndexImage = new ImageIcon("P_ship5_" + i + ".png");
+                Coordinate c = new Coordinate(patrolStartPoint[0]+i, patrolStartPoint[1], patrolBoatIndexImage);
                 patrolShipList[i]=c;
 
             }
@@ -542,12 +552,11 @@ public class BattleShipView{
                     for (Coordinate coord : ship.getCoordinates()) {
                         if (coord.getRow() == row && coord.getColumn() == col) {
                             hasShip = true;
+                            cellButton.setIcon(coord.getImageIcon());
                             break;
                         }
                     }
                     if (hasShip) {
-                        ImageIcon shippng = new ImageIcon("ship.png");
-                        cellButton.setIcon(shippng);
                         break;
                     }
 
