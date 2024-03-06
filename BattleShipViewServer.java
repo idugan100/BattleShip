@@ -60,22 +60,10 @@ public class BattleShipViewServer{
             
             
                             // Create and add label and exit button
-                            JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
-                            JButton exitButton = new JButton("Exit to Main Menu");
-            
+                            JLabel label = new JLabel("Game Started", SwingConstants.CENTER);            
                             // Add components to gameFrame
                             gameFrame.add(label, BorderLayout.NORTH);
-                            gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);
-                            gameFrame.add(exitButton, BorderLayout.SOUTH);
-            
-                            // Exit button functionality
-                            exitButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                gameFrame.setVisible(false);
-                                frame.setVisible(true); 
-                            } 
-                            });
+                            gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);            
             
                             gameFrame.pack();
                             gameFrame.setLocationRelativeTo(null); // center game window
@@ -205,21 +193,10 @@ public class BattleShipViewServer{
 
                 // Create and add label and exit button
                 JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
-                JButton exitButton = new JButton("Exit to Main Menu");
 
                 // Add components to gameFrame
                 gameFrame.add(label, BorderLayout.NORTH);
                 gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);
-                gameFrame.add(exitButton, BorderLayout.SOUTH);
-
-                // Exit button functionality
-                exitButton.addActionListener(new ActionListener() {
-                   @Override
-                   public void actionPerformed(ActionEvent e) {
-                    gameFrame.setVisible(false);
-                    frame.setVisible(true); 
-                   } 
-                });
 
                 gameFrame.pack();
                 gameFrame.setLocationRelativeTo(null); // center game window
@@ -252,41 +229,20 @@ public class BattleShipViewServer{
 
             // Adjust row start based on orientation
 
-            if (isHorizontal) {
-                if (rowStart > 0 && rowStart < 9) {
-                    rowStart += 1;
-                } else if (rowStart >= 9) {
-                    rowStart = 9;
-                } else if (colStart <= 0){
-                    rowStart = 0;
-                }
-                
-                if (colStart >= 9) {
-                    colStart = 9;
-                }
-
-                if (colStart <= 0) {
-                    colStart = 0;
-                }
-
-            } else {
-                if (colStart > 0 && colStart < 9) {
-                    colStart += 1;
-                } else if (colStart >= 9) {
-                    colStart = 9;
-                } else if(rowStart <= 0){
-                    colStart = 0;
-                }
-
-                if (rowStart >= 9) {
-                    rowStart = 9;
-                } 
-                
-                if (rowStart <= 0){
-                    rowStart = 0;
-                }
+            if (rowStart >= 9) {
+                rowStart = 9;
+            } else if (rowStart <= 0){
+                rowStart = 0;
+            }
+            
+            if (colStart >= 9) {
+                colStart = 9;
             }
 
+            if (colStart <= 0) {
+                colStart = 0;
+            }
+            
             // Update the temporary list with adjusted values
             shipTemp.set(baseIndex, rowStart);
             shipTemp.set(baseIndex + 1, colStart);
