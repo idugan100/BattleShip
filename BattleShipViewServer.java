@@ -33,11 +33,11 @@ public class BattleShipViewServer{
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                        System.out.println("Ships Placement Confirmed");
                         List<Integer> shipCoordinates = placeShips();
                         boolean check = initializeBoardManually(shipCoordinates);  
                         
                         if(check){
+                            System.out.println("Ships Placement Confirmed");
                             game.player.board.printBoard();
             
                             // Create game window
@@ -83,6 +83,7 @@ public class BattleShipViewServer{
                             frame.setVisible(false);
                         }
                         else{
+                            JOptionPane.showMessageDialog(null, "Invalid Placement!");
                             game.player.board.resetBoard();
                         }
                     }

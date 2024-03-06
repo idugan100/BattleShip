@@ -33,18 +33,11 @@ public class BattleShipView{
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                        System.out.println("Ships Placement Confirmed");
-                        List<Integer> shipCoordinates =placeShips();
-                        
-                        // int count = 1;
-                        // for (int coord : shipCoordinates) {
-                        //     System.out.printf("%d: %d \n",count, coord);
-                        //     count++;
-                        // }
+                    List<Integer> shipCoordinates =placeShips();
 
-                        boolean check = initializeBoardManually(shipCoordinates);
-                       if(check){
-                        System.out.println("IN IF");
+                    boolean check = initializeBoardManually(shipCoordinates);
+                    if(check){
+                        System.out.println("Ships Placement Confirmed");                        
                         game.player.board.printBoard();
             
                         // Create game window
@@ -88,14 +81,13 @@ public class BattleShipView{
                         gameFrame.setLocationRelativeTo(null); // center game window
                         gameFrame.setVisible(true);
                         frame.setVisible(false);
-                    }
-                    else{
-                        //remove ships from board
-                        System.out.println("IN ELSE");
-                        game.player.board.resetBoard();
-                    }
-                    }
-                });
+                } else{
+                    //remove ships from board
+                    JOptionPane.showMessageDialog(null, "Invalid Placement!");
+                    game.player.board.resetBoard();
+                }
+            }
+        });
 
 
         // Background Image Panel (Main Menu)
