@@ -160,4 +160,15 @@ public class Board {
 	public void resetBoard () {
 		shipList.clear();
 	}
+
+	public String getSunkList(){
+		String list ="";
+		for(int i=0; i<shipList.size();i++){
+			if(shipList.get(i).isSunk()){
+				list += shipList.get(i).getName() + ", ";
+			}
+		}
+		return list;
+
+	}
 }

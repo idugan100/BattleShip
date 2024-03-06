@@ -15,6 +15,8 @@ public class BattleShipView{
     private static JButton[][] coordinateGrid;
     private static MyPanel dragAndDrop;
     private static JFrame frame;
+    private static JLabel enemyShipsSunk;
+    private static JLabel playerShipsSunk;
 
     public static void main(String[] args) {
         coordinateGrid= new JButton[10][10];
@@ -49,14 +51,24 @@ public class BattleShipView{
                         JPanel gameBackgroundPanel = new JPanel();
                         gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
         
-                        // Initialize player and targeting BoardPanel 
+                        JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                        playerShipsSunk = new JLabel("Your Ships Sunk: ");
+                        psunk.add(playerShipsSunk);
                         JPanel playerBoardPanel = initializeBoardPanel();
                         JPanel targetingBoardPanel = initializeEnemyBoardPanel();
+                        JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                        enemyShipsSunk = new JLabel("Sunk List: ",SwingConstants.RIGHT);
+                        esunk.add(enemyShipsSunk);
+        
+        
         
                         // Add boards to game background
+                        gameBackgroundPanel.add(esunk);
                         gameBackgroundPanel.add(targetingBoardPanel);
                         gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
                         gameBackgroundPanel.add(playerBoardPanel);
+                        gameBackgroundPanel.add(psunk);
+
         
         
                         // Create and add label and exit button
@@ -181,14 +193,23 @@ public class BattleShipView{
                 JPanel gameBackgroundPanel = new JPanel();
                 gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
 
-                // Initialize player and targeting BoardPanel 
+                JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                playerShipsSunk = new JLabel("Your Ships Sunk: ");
+                psunk.add(playerShipsSunk);
                 JPanel playerBoardPanel = initializeBoardPanel();
                 JPanel targetingBoardPanel = initializeEnemyBoardPanel();
+                JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                enemyShipsSunk = new JLabel("Sunk List: ",SwingConstants.RIGHT);
+                esunk.add(enemyShipsSunk);
+
+
 
                 // Add boards to game background
+                gameBackgroundPanel.add(esunk);
                 gameBackgroundPanel.add(targetingBoardPanel);
                 gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
                 gameBackgroundPanel.add(playerBoardPanel);
+                gameBackgroundPanel.add(psunk);
 
 
                 // Create and add label and exit button
@@ -485,6 +506,7 @@ public class BattleShipView{
                             System.exit(0);
 
                         }
+                        playerShipsSunk.setText("Sunk: " + game.player.board.getSunkList());
                         cellButton.removeActionListener(this); 
 
 
