@@ -1,25 +1,17 @@
 import java.io.IOException;
 
-public class Game{
+public class GameServer{
     public Player player;
     boolean isTurn;
     boolean isOver;
-    Client connection;
+    Server connection;
     String enemySunkList;
 
-    Game(){
+    GameServer(){
         player = new Player();
         isTurn=false;//will need to be swapped for server vs client
         isOver=false;
-        connection = new Client( "127.0.0.1" );
-        try{
-            connection.connectToServer(); // create a Socket to make connection
-            connection.getStreams();  
-            connection.input.readObject();
-        }
-        catch(Exception e){
-
-        }
+        connection = new Server();
         enemySunkList = "";
 
     }
@@ -30,7 +22,6 @@ public class Game{
             connection.sendData(Integer.toString(c.row));
             connection.sendData(Integer.toString(c.column));
             result= (String) connection.input.readObject();
-
         } catch (Exception e) {
             System.out.println("error in get shot networking");
         }
@@ -50,6 +41,7 @@ public class Game{
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }
+
         return c;
     }
 

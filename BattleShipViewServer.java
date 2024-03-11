@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class BattleShipView{
+
+public class BattleShipViewServer{
 
     // currently being used for testing
-    private static Game game = new Game();
+    private static GameServer game = new GameServer();
     private static JButton[][] coordinateGrid;
     private static MyPanel dragAndDrop;
     private static JFrame frame;
@@ -36,64 +37,64 @@ public class BattleShipView{
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    List<Integer> shipCoordinates =placeShips();
-
-                    boolean check = initializeBoardManually(shipCoordinates);
-                    if(check){
-                        System.out.println("Ships Placement Confirmed");                        
-                        game.player.board.printBoard();
+                        List<Integer> shipCoordinates = placeShips();
+                        boolean check = initializeBoardManually(shipCoordinates);  
+                        
+                        if(check){
+                            System.out.println("Ships Placement Confirmed");
+                            game.player.board.printBoard();
             
-                        // Create game window
-                        JFrame gameFrame = new JFrame("Game Window");
-                        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        gameFrame.setLayout(new BorderLayout()); // Set layout for gameFrame
-        
-                        // Create components for the game window
-                        gameBackgroundPanel = new JPanel();
-                        gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
-        
-                        JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                        playerShipsSunk = new JTextArea("Your Ships Sunk: ");
-                        playerShipsSunk.setEditable(false);
-                        playerShipsSunk.setColumns(40); // Set preferred width (adjust as needed)
-                        psunk.add(playerShipsSunk);
-                        JPanel playerBoardPanel = initializeBoardPanel();
-                        JPanel targetingBoardPanel = initializeEnemyBoardPanel();
-                        JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                        enemyShipsSunk = new JTextArea("Enemy Ships Sunk: ");
-                        enemyShipsSunk.setOpaque(true);
-                        enemyShipsSunk.setEditable(false);
-                        enemyShipsSunk.setColumns(40); // Set preferred width (adjust as needed)
-                        esunk.add(enemyShipsSunk);
-        
-        
-        
-                        // Add boards to game background
-                        gameBackgroundPanel.add(esunk);
-                        gameBackgroundPanel.add(targetingBoardPanel);
-                        gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-                        gameBackgroundPanel.add(playerBoardPanel);
-                        gameBackgroundPanel.add(psunk);
+                            // Create game window
+                            JFrame gameFrame = new JFrame("Game Window");
+                            gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            gameFrame.setLayout(new BorderLayout()); // Set layout for gameFrame
+            
+                            // Create components for the game window
+                             gameBackgroundPanel = new JPanel();
+                            gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
+            
+                            JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                            playerShipsSunk = new JTextArea("Your Ships Sunk: ");
+                            playerShipsSunk.setEditable(false);
+                            playerShipsSunk.setColumns(40); // Set preferred width (adjust as needed)
+                            psunk.add(playerShipsSunk);
+                            JPanel playerBoardPanel = initializeBoardPanel();
+                            JPanel targetingBoardPanel = initializeEnemyBoardPanel();
+                            JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                            enemyShipsSunk = new JTextArea("Enemy Ships Sunk: ");
+                            enemyShipsSunk.setEditable(false);
+                            enemyShipsSunk.setColumns(40);
+                            enemyShipsSunk.setPreferredSize(new Dimension(390, 25)); // Set preferred size to see background color
 
-        
-        
-                        // Create and add label and exit button
-                        JLabel label = new JLabel("Game Started", SwingConstants.CENTER);        
-                        // Add components to gameFrame
-                        gameFrame.add(label, BorderLayout.NORTH);
-                        gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);
-        
-                        gameFrame.pack();
-                        gameFrame.setLocationRelativeTo(null); // center game window
-                        gameFrame.setVisible(true);
-                        frame.setVisible(false);
-                } else{
-                    //remove ships from board
-                    JOptionPane.showMessageDialog(null, "Invalid Placement!");
-                    game.player.board.resetBoard();
-                }
-            }
-        });
+                            esunk.add(enemyShipsSunk);
+            
+            
+            
+                            // Add boards to game background
+                            gameBackgroundPanel.add(esunk);
+                            gameBackgroundPanel.add(targetingBoardPanel);
+                            gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                            gameBackgroundPanel.add(playerBoardPanel);
+                            gameBackgroundPanel.add(psunk);
+            
+            
+                            // Create and add label and exit button
+                            JLabel label = new JLabel("Game Started", SwingConstants.CENTER);            
+                            // Add components to gameFrame
+                            gameFrame.add(label, BorderLayout.NORTH);
+                            gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);            
+            
+                            gameFrame.pack();
+                            gameFrame.setLocationRelativeTo(null); // center game window
+                            gameFrame.setVisible(true);
+                            frame.setVisible(false);
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Invalid Placement!");
+                            game.player.board.resetBoard();
+                        }
+                    }
+                });
 
 
         // Background Image Panel (Main Menu)
@@ -199,32 +200,33 @@ public class BattleShipView{
                 gameBackgroundPanel = new JPanel();
                 gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
 
-                JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                playerShipsSunk = new JTextArea("Your Ships Sunk: ");
-                playerShipsSunk.setEditable(false);
-                psunk.add(playerShipsSunk);
-                JPanel playerBoardPanel = initializeBoardPanel();
-                JPanel targetingBoardPanel = initializeEnemyBoardPanel();
-                JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                enemyShipsSunk = new JTextArea("Enemy Ships Sunk: ");
-                enemyShipsSunk.setEditable(false);
-                enemyShipsSunk.setOpaque(true);
+               // Initialize player and targeting BoardPanel 
+               JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+               playerShipsSunk = new JTextArea("Your Ships Sunk: ");
+               playerShipsSunk.setEditable(false);
+               playerShipsSunk.setColumns(40); // Set preferred width (adjust as needed)
+               psunk.add(playerShipsSunk);
+               JPanel playerBoardPanel = initializeBoardPanel();
+               JPanel targetingBoardPanel = initializeEnemyBoardPanel();
+               JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
+               enemyShipsSunk = new JTextArea("Enemy Ships Sunk: ");
+               enemyShipsSunk.setEditable(false);
+                enemyShipsSunk.setColumns(40);
+               esunk.add(enemyShipsSunk);
 
-                enemyShipsSunk.setPreferredSize(new Dimension(395, 25)); // Set preferred size to see background color
-                esunk.add(enemyShipsSunk);
 
 
-
-                // Add boards to game background
-                gameBackgroundPanel.add(esunk);
-                gameBackgroundPanel.add(targetingBoardPanel);
-                gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-                gameBackgroundPanel.add(playerBoardPanel);
-                gameBackgroundPanel.add(psunk);
+               // Add boards to game background
+               gameBackgroundPanel.add(esunk);
+               gameBackgroundPanel.add(targetingBoardPanel);
+               gameBackgroundPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+               gameBackgroundPanel.add(playerBoardPanel);
+               gameBackgroundPanel.add(psunk);
 
 
                 // Create and add label and exit button
                 JLabel label = new JLabel("Game Started", SwingConstants.CENTER);
+
                 // Add components to gameFrame
                 gameFrame.add(label, BorderLayout.NORTH);
                 gameFrame.add(gameBackgroundPanel, BorderLayout.CENTER);
@@ -234,25 +236,12 @@ public class BattleShipView{
                 gameFrame.setVisible(true);
                 frame.setVisible(false);
 
+
             }
         });
-        Audio audio = new Audio();
+        
+        game.connection.runServer();
 
-        Coordinate incoming_shot=game.getShot();
-                        if(incoming_shot.isHit()){
-                            audio.setFile("explosion.wav");
-                            audio.play();
-                            ImageIcon hitIcon = new ImageIcon("hitship.png");
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].setIcon(hitIcon);;
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].paintImmediately(coordinateGrid[incoming_shot.row][incoming_shot.column].getVisibleRect());
-                        }
-                        else{
-                            audio.setFile("miss.wav");
-                            audio.play();
-                            ImageIcon white = new ImageIcon("white.png");
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].setIcon(white);
-                            coordinateGrid[incoming_shot.row][incoming_shot.column].paintImmediately(coordinateGrid[incoming_shot.row][incoming_shot.column].getVisibleRect());
-                        }  
     }
 
 
@@ -265,10 +254,12 @@ public class BattleShipView{
         for (int shipIndex = 0; shipIndex < 5; shipIndex++) {
             int baseIndex = shipIndex * 2; // Each ship has two entries (row, col) in the list
             boolean isHorizontal = dragAndDrop.getHorizontal(shipIndex);
+
     
             int rowStart = shipCoordinates.get(baseIndex) / 60;
 
             int colStart = shipCoordinates.get(baseIndex + 1) / 60;
+
             // Adjust row start based on orientation
 
             if (rowStart >= 9) {
@@ -284,7 +275,7 @@ public class BattleShipView{
             if (colStart <= 0) {
                 colStart = 0;
             }
-
+            
             // Update the temporary list with adjusted values
             shipTemp.set(baseIndex, rowStart);
             shipTemp.set(baseIndex + 1, colStart);
@@ -295,6 +286,7 @@ public class BattleShipView{
     
     private static boolean initializeBoardManually (List<Integer> shipCoordinates) {
     //CARRIER
+
         int[] carrierStartPoint = new int[]{shipCoordinates.get(0), shipCoordinates.get(1)};
         Coordinate[] carrierList = new Coordinate[5];
         if(dragAndDrop.getHorizontal(0)){
@@ -313,13 +305,10 @@ public class BattleShipView{
         }
         Ship Carrier = new Ship(5, "Carrier", "c");
         Carrier.placeShip(carrierList);
-
-        if(!game.player.board.addShip(Carrier)) {
-            System.out.println("CARRIER NOT ADDED, COLLISION DETECTED");
+        if(!game.player.board.addShip(Carrier)){
             return false;
         }
-
-    // BATTLESHIP
+    //battleship
         int[] battleshipStartPoint = new int[]{shipCoordinates.get(2), shipCoordinates.get(3)};
         Coordinate[] battleShipList = new Coordinate[4];
         if(dragAndDrop.getHorizontal(1)){
@@ -339,12 +328,10 @@ public class BattleShipView{
         }
         Ship BattleShip = new Ship(4, "BattleShip", "b");
         BattleShip.placeShip(battleShipList);
-
-        if(!game.player.board.addShip(BattleShip)) {
-            System.out.println("BATTLESHIP NOT ADDED, COLLISION DETECTED");
+        
+        if(!game.player.board.addShip(BattleShip)){
             return false;
         }
-
     //SUBMARINE
         int[] subStartPoint = new int[]{shipCoordinates.get(4), shipCoordinates.get(5)};
         Coordinate[] subShipList = new Coordinate[3];
@@ -366,10 +353,10 @@ public class BattleShipView{
         Ship SubShip = new Ship(3, "Submarine", "s");
         SubShip.placeShip(subShipList);
 
-        if(!game.player.board.addShip(SubShip)) {
-            System.out.println("SUBMARINE NOT ADDED, COLLISION DETECTED");
+        if(!game.player.board.addShip(SubShip)){
             return false;
         }
+        
 
     //DESTROYER
         int[] destroyerStartPoint = new int[]{shipCoordinates.get(6), shipCoordinates.get(7)};
@@ -392,8 +379,7 @@ public class BattleShipView{
         Ship DestroyerShip = new Ship(3, "Destroyer", "d");
         DestroyerShip.placeShip(destroyerShipList);
 
-        if(!game.player.board.addShip(DestroyerShip)) {
-            System.out.println("DESTROYER NOT ADDED, COLLISION DETECTED");
+        if(!game.player.board.addShip(DestroyerShip)){
             return false;
         }
     // PATROL BOAT
@@ -411,20 +397,15 @@ public class BattleShipView{
                 ImageIcon patrolBoatIndexImage = new ImageIcon("P_ship5_" + i + ".png");
                 Coordinate c = new Coordinate(patrolStartPoint[0]+i, patrolStartPoint[1], patrolBoatIndexImage);
                 patrolShipList[i]=c;
-
             }
         }
         Ship PatrolBoat = new Ship(2, "Patrol Boat", "p");
         PatrolBoat.placeShip(patrolShipList);
 
-        if(!game.player.board.addShip(PatrolBoat)) {
-            System.out.println("PATROL BOAT NOT ADDED, COLLISION DETECTED");
+        if(!game.player.board.addShip(PatrolBoat)){
             return false;
         }
-
-        
         return true;
-
     }
 
     private static JPanel initializeEnemyBoardPanel() {
@@ -470,6 +451,7 @@ public class BattleShipView{
                         Coordinate shot = new Coordinate(finalRow, finalCol);
                         Coordinate result = game.shoot(shot);
                         Audio audio = new Audio();
+
                         // update button based on hit or miss
                         if (result.isHit()) {
                             audio.setFile("explosion.wav");
@@ -490,13 +472,13 @@ public class BattleShipView{
 
 
                         if(game.hasWon()) {
-                            JOptionPane.showMessageDialog(frame, "Game Over You Won!");
+                            JOptionPane.showMessageDialog(null, "Game Over You Won!");
                             System.exit(0);
-
                         }
                         else if(game.hasLost()){
-                            JOptionPane.showMessageDialog(frame, "Game Over You Lost!");
+                            JOptionPane.showMessageDialog(null, "Game Over You Lost!");
                             System.exit(0);
+
                         }
                         try{
                             TimeUnit.MILLISECONDS.sleep(1000);
@@ -523,12 +505,12 @@ public class BattleShipView{
                         playerShipsSunk.setText("Your Ships Sunk: " + game.player.board.getSunkList());
 
                         if(game.hasWon()) {
-                            JOptionPane.showMessageDialog(frame, "Game Over You Won!");
+                            JOptionPane.showMessageDialog(null, "Game Over You Won!");
                             System.exit(0);
 
                         }
                         else if(game.hasLost()){
-                            JOptionPane.showMessageDialog(frame, "Game Over You Lost!");
+                            JOptionPane.showMessageDialog(null, "Game Over You Lost!");
                             System.exit(0);
 
                         }

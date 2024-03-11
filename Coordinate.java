@@ -1,15 +1,29 @@
+import javax.swing.ImageIcon;
+
 public class Coordinate {
 	
 	protected int row;
 	protected int column;
 	protected CoordinateStatus status;
+	private ImageIcon image;
 	
 	Coordinate(int row, int column) {
 		this.row=row;
 		this.column=column;
 		this.status=CoordinateStatus.UNTOUCHED;
 	}
-	
+
+	Coordinate(int row, int column, ImageIcon image) {
+		this.row=row;
+		this.column=column;
+		this.status=CoordinateStatus.UNTOUCHED;
+		this.image = image;
+	}
+
+	public ImageIcon getImageIcon () {
+		return image;
+	}
+
 	boolean isHit() {
 		return CoordinateStatus.HIT==status;
 	}

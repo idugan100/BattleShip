@@ -20,8 +20,8 @@ public class Server extends JFrame
 {
    private JTextField enterField; // inputs message from user
    private JTextArea displayArea; // display information to user
-   private ObjectOutputStream output; // output stream to client
-   private ObjectInputStream input; // input stream from client
+   public ObjectOutputStream output; // output stream to client
+   public ObjectInputStream input; // input stream from client
    private ServerSocket server; // server socket
    private Socket connection; // connection to client
    private int counter = 1; // counter of number of connections
@@ -51,7 +51,7 @@ public class Server extends JFrame
       add( new JScrollPane( displayArea ), BorderLayout.CENTER );
 
       setSize( 300, 150 ); // set size of window
-      setVisible( true ); // show window
+      // setVisible( true ); // show window
    } // end Server constructor
 
    // set up and run server 
@@ -119,15 +119,15 @@ public class Server extends JFrame
 
       do // process messages sent from client
       { 
-         try // read message and display it
-         {
-            message = ( String ) input.readObject(); // read new message
-            displayMessage( "\n" + message ); // display message
-         } // end try
-         catch ( ClassNotFoundException classNotFoundException ) 
-         {
-            displayMessage( "\nUnknown object type received" );
-         } // end catch
+         // try // read message and display it
+         // {
+         //    message = ( String ) input.readObject(); // read new message
+         //    displayMessage( "\n" + message ); // display message
+         // } // end try
+         // catch ( ClassNotFoundException classNotFoundException ) 
+         // {
+         //    displayMessage( "\nUnknown object type received" );
+         // } // end catch
 
       } while ( !message.equals( "CLIENT>>> TERMINATE" ) );
    } // end method processConnection
@@ -151,13 +151,13 @@ public class Server extends JFrame
    } // end method closeConnection
 
    // send message to client
-   private void sendData( String message )
+   public void sendData( String message )
    {
       try // send object to client
       {
          output.writeObject(  message );
          output.flush(); // flush output to client
-         displayMessage( "\nSERVER>>> " + message );
+         displayMessage(  message );
       } // end try
       catch ( IOException ioException ) 
       {
