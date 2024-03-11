@@ -15,8 +15,8 @@ public class BattleShipView{
     private static JButton[][] coordinateGrid;
     private static MyPanel dragAndDrop;
     private static JFrame frame;
-    private static JLabel enemyShipsSunk;
-    private static JLabel playerShipsSunk;
+    private static JTextArea enemyShipsSunk;
+    private static JTextArea playerShipsSunk;
     private static JPanel gameBackgroundPanel;
 
     public static void main(String[] args) {
@@ -53,14 +53,17 @@ public class BattleShipView{
                         gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
         
                         JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                        playerShipsSunk = new JLabel("Your Ships Sunk: ");
+                        playerShipsSunk = new JTextArea("Your Ships Sunk: ");
+                        playerShipsSunk.setEditable(false);
+                        playerShipsSunk.setColumns(40); // Set preferred width (adjust as needed)
                         psunk.add(playerShipsSunk);
                         JPanel playerBoardPanel = initializeBoardPanel();
                         JPanel targetingBoardPanel = initializeEnemyBoardPanel();
                         JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                        enemyShipsSunk = new JLabel("Enemy Ships Sunk: ");
+                        enemyShipsSunk = new JTextArea("Enemy Ships Sunk: ");
                         enemyShipsSunk.setOpaque(true);
-                        enemyShipsSunk.setPreferredSize(new Dimension(390, 25)); // Set preferred size to see background color
+                        enemyShipsSunk.setEditable(false);
+                        enemyShipsSunk.setColumns(40); // Set preferred width (adjust as needed)
                         esunk.add(enemyShipsSunk);
         
         
@@ -197,12 +200,14 @@ public class BattleShipView{
                 gameBackgroundPanel.setLayout(new BoxLayout(gameBackgroundPanel, BoxLayout.Y_AXIS));
 
                 JPanel psunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                playerShipsSunk = new JLabel("Your Ships Sunk: ");
+                playerShipsSunk = new JTextArea("Your Ships Sunk: ");
+                playerShipsSunk.setEditable(false);
                 psunk.add(playerShipsSunk);
                 JPanel playerBoardPanel = initializeBoardPanel();
                 JPanel targetingBoardPanel = initializeEnemyBoardPanel();
                 JPanel esunk = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                enemyShipsSunk = new JLabel("Enemy Ships Sunk: ");
+                enemyShipsSunk = new JTextArea("Enemy Ships Sunk: ");
+                enemyShipsSunk.setEditable(false);
                 enemyShipsSunk.setOpaque(true);
 
                 enemyShipsSunk.setPreferredSize(new Dimension(395, 25)); // Set preferred size to see background color
