@@ -1,5 +1,6 @@
 import java.util.Vector;
 import java.util.Random;
+import javax.swing.ImageIcon;
 
 public class Board {
 
@@ -34,12 +35,13 @@ public class Board {
 		Ship submarine = new Ship(3, "Submarine","s");
 		Ship destroyer = new Ship(3, "Destroyer","d");
 		Ship carrier = new Ship(5, "Aircraft Carrier","c");
+		tempShipList.add(carrier);
 		tempShipList.add(battleShip);
-		tempShipList.add(patrolShip);
 		tempShipList.add(submarine);
 		tempShipList.add(destroyer);
-		tempShipList.add(carrier);
+		tempShipList.add(patrolShip);
 
+		int imageCount = 1;
 		for (Ship ship : tempShipList) {
 			boolean placed = false;
 			while(!placed) {
@@ -52,18 +54,23 @@ public class Board {
 					if ((col + ship.getSize() <= WIDTH) ) {
 						Coordinate[] coordinates = new Coordinate[ship.getSize()];
 						for (int i = 0; i < ship.getSize(); i++) {
-							coordinates[i] = new Coordinate(row, col + i);
+							ImageIcon shipIndexImage = new ImageIcon("P_ship" + imageCount + "h_" + i + ".png");
+							coordinates[i] = new Coordinate(row, col + i, shipIndexImage);
 						}
 						ship.placeShip(coordinates);
 						placed=addShip(ship);
 						printBoard();
+						imageCount++;
 					}
 				}
+
+				//vertical
 				if(dir==1){
 					if ((row + ship.getSize() <= HEIGHT) ) {
 						Coordinate[] coordinates = new Coordinate[ship.getSize()];
 						for (int i = 0; i < ship.getSize(); i++) {
-							coordinates[i] = new Coordinate(row+i, col);
+							ImageIcon shipIndexImage = new ImageIcon("P_ship" + imageCount + "_" + i + ".png");
+							coordinates[i] = new Coordinate(row+i, col, shipIndexImage);
 						}
 						ship.placeShip(coordinates);
 						placed=addShip(ship);
